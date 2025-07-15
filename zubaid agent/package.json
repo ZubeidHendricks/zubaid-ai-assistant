@@ -1,0 +1,54 @@
+{
+  "name": "zubaid-ai-assistant",
+  "version": "1.0.0",
+  "description": "ZUBAID - Your AI Assistant for Adobe Express | Multi-Agent Creative Workflow System",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "setup": "node scripts/setup.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.3",
+    "@google/generative-ai": "^0.2.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7",
+    "openai": "^4.104.0",
+    "socket.io": "^4.7.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "adobe-express",
+    "ai-assistant",
+    "multi-agent",
+    "creative-workflow",
+    "zubaid",
+    "openai",
+    "anthropic",
+    "google-ai",
+    "design-automation",
+    "adobe-add-on"
+  ],
+  "author": "Zubeid Hendricks",
+  "license": "PRIVATE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZubeidHendricks/zubaid-ai-assistant.git"
+  }
+}

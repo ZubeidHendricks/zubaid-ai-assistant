@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Review - zubaid AI Agency</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌟 zubaid AI Agency</h1>
+            <p>Human Review Center - Google ADK Integration</p>
+        </header>
+
+        <nav class="nav">
+            <a href="/" class="nav-link">Submit Brief</a>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/human-review" class="nav-link active">Human Review</a>
+            <a href="/coe-review" class="nav-link">CoE Review</a>
+            <a href="/agents" class="nav-link">AI Agents</a>
+        </nav>
+
+        <main class="main">
+            <div class="review-container">
+                <div class="review-header">
+                    <h2>Projects Requiring Human Review</h2>
+                    <p>Review Google ADK agent work before CoE approval</p>
+                </div>
+
+                <div id="humanReviewQueue" class="review-queue">
+                    <!-- Review items will be loaded here -->
+                </div>
+
+                <!-- Human Review Modal -->
+                <div id="humanReviewModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="modalProjectTitle">Human Review</h3>
+                            <button class="modal-close" onclick="closeHumanReviewModal()">&times;</button>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <div class="project-summary">
+                                <h4>Project Summary</h4>
+                                <div id="projectSummary"></div>
+                            </div>
+
+                            <div class="google-adk-work">
+                                <h4>Google ADK Agent Work</h4>
+                                <div id="adkAgentWork"></div>
+                            </div>
+
+                            <div class="human-adjustments">
+                                <h4>Human Adjustments</h4>
+                                <div class="adjustment-form">
+                                    <div class="form-group">
+                                        <label for="strategyAdjustments">Strategy Adjustments</label>
+                                        <textarea id="strategyAdjustments" rows="3" 
+                                                placeholder="Adjust strategic framework recommendations..."></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="timelineAdjustments">Timeline Adjustments</label>
+                                        <textarea id="timelineAdjustments" rows="2" 
+                                                placeholder="Modify timeline or milestones..."></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="budgetAdjustments">Budget Adjustments</label>
+                                        <textarea id="budgetAdjustments" rows="2" 
+                                                placeholder="Adjust budget allocation or recommendations..."></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="additionalNotes">Additional Notes</label>
+                                        <textarea id="additionalNotes" rows="3" 
+                                                placeholder="Any additional guidance for the AI agents..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="review-actions">
+                                <h4>Review Decision</h4>
+                                <div class="decision-buttons">
+                                    <button onclick="approveForCoe()" class="btn btn-success">
+                                        ✅ Approve for CoE Review
+                                    </button>
+                                    <button onclick="requestAdjustments()" class="btn btn-warning">
+                                        📝 Request Agent Adjustments
+                                    </button>
+                                    <button onclick="rejectWork()" class="btn btn-danger">
+                                        ❌ Reject & Restart
+                                    </button>
+                                </div>
+
+                                <div id="feedbackForm" class="feedback-form" style="display: none;">
+                                    <h5>Feedback for AI Agents</h5>
+                                    <textarea id="agentFeedback" rows="4" 
+                                            placeholder="Provide specific feedback for the Google ADK agents..."></textarea>
+                                    <div class="form-actions">
+                                        <button onclick="submitHumanReview('adjust')" class="btn btn-primary">Submit Adjustments</button>
+                                        <button onclick="submitHumanReview('reject')" class="btn btn-danger">Submit Rejection</button>
+                                        <button onclick="cancelFeedback()" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let currentReviewProject = null;
+
+        // Load projects requiring human review
+        loadHumanReviewQueue();
+
+        async function loadHumanReviewQueue() {
+            try {
+                const response = await fetch('/api/human-review/queue');
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderHumanReviewQueue(result.projects);
+                }
+            } catch (error) {
+                console.error('Error loading human review queue:', error);
+            }
+        }
+
+        function renderHumanReviewQueue(projects) {
+            const queue = document.getElementById('humanReviewQueue');
+            queue.innerHTML = '';
+
+            if (projects.length === 0) {
+                queue.innerHTML = `
+                    <div class="empty-state">
+                        <h3>✅ All Clear!</h3>
+                        <p>No projects currently require human review.</p>
+                        <p>Google ADK agents are working autonomously or waiting for CoE approval.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            projects.forEach(project => {
+                const reviewCard = createHumanReviewCard(project);
+                queue.appendChild(reviewCard);
+            });
+        }
+
+        function createHumanReviewCard(project) {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            
+            const urgency = getUrgencyLevel(project);
+            card.classList.add(`urgency-${urgency}`);
+
+            const agentConfidence = project.agentWork?.confidenceLevel || 0;
+
+            card.innerHTML = `
+                <div class="review-header">
+                    <h3>${project.projectName}</h3>
+                    <span class="urgency-badge urgency-${urgency}">${urgency.toUpperCase()}</span>
+                </div>
+                <div class="review-details">
+                    <p><strong>Client:</strong> ${project.clientName}</p>
+                    <p><strong>Budget:</strong> $${project.budget.toLocaleString()}</p>
+                    <p><strong>Timeline:</strong> ${project.timeline}</p>
+                    <p><strong>Agent Confidence:</strong> ${agentConfidence}%</p>
+                    <p><strong>Current Cost:</strong> $${(project.currentCost || 0).toLocaleString()}</p>
+                </div>
+                <div class="adk-summary">
+                    <h5>Google ADK Agent Summary:</h5>
+                    <p><strong>Status:</strong> ${project.agentWork ? 'Completed' : 'In Progress'}</p>
+                    ${project.agentWork ? `
+                        <p><strong>Complexity Score:</strong> ${project.agentWork.analysis?.result?.complexityScore || 'N/A'}/10</p>
+                        <p><strong>Progress:</strong> ${project.agentWork.progress?.result?.overallProgress || 0}%</p>
+                    ` : ''}
+                </div>
+                <div class="review-reason">
+                    <p><strong>Review Reason:</strong> ${getHumanReviewReason(project)}</p>
+                </div>
+                <div class="review-actions">
+                    <button onclick="openHumanReviewModal('${project.id}')" class="btn btn-primary">
+                        Review Agent Work
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function getUrgencyLevel(project) {
+            if (project.budget > 100000) return 'high';
+            if (project.agentWork?.confidenceLevel < 85) return 'medium';
+            if (project.iterations > 1) return 'medium';
+            return 'low';
+        }
+
+        function getHumanReviewReason(project) {
+            if (project.budget > 100000) return 'High-value project requiring human oversight';
+            if (project.agentWork?.confidenceLevel < 90) return 'Agent confidence below threshold (90%)';
+            if (project.iterations > 1) return 'Multiple iterations - quality check needed';
+            return 'Standard human review before CoE approval';
+        }
+
+        async function openHumanReviewModal(projectId) {
+            try {
+                const response = await fetch(`/api/projects/${projectId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentReviewProject = result.project;
+                    populateHumanReviewModal(result.project);
+                    document.getElementById('humanReviewModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading project for human review:', error);
+            }
+        }
+
+        function populateHumanReviewModal(project) {
+            document.getElementById('modalProjectTitle').textContent = `Human Review: ${project.projectName}`;
+            
+            // Project Summary
+            document.getElementById('projectSummary').innerHTML = `
+                <div class="summary-grid">
+                    <div><strong>Client:</strong> ${project.clientName}</div>
+                    <div><strong>Budget:</strong> $${project.budget.toLocaleString()}</div>
+                    <div><strong>Timeline:</strong> ${project.timeline}</div>
+                    <div><strong>Status:</strong> ${project.status}</div>
+                </div>
+                <div class="brief-text">
+                    <strong>Brief:</strong>
+                    <p>${project.brief}</p>
+                </div>
+            `;
+
+            // Google ADK Agent Work
+            const agentWork = project.agentWork;
+            const adkWorkContainer = document.getElementById('adkAgentWork');
+            
+            if (agentWork) {
+                adkWorkContainer.innerHTML = `
+                    <div class="adk-analysis">
+                        <h5>📋 Brief Analysis (Alex)</h5>
+                        <div class="agent-result">
+                            <p><strong>Complexity Score:</strong> ${agentWork.analysis.result.complexityScore}/10</p>
+                            <p><strong>Confidence:</strong> ${agentWork.analysis.result.confidenceLevel}%</p>
+                            <p><strong>Recommended Budget:</strong> $${agentWork.analysis.result.recommendedBudget.toLocaleString()}</p>
+                            <p><strong>Required Agents:</strong> ${agentWork.analysis.result.requiredAgents.join(', ')}</p>
+                            <div class="next-steps">
+                                <strong>Next Steps:</strong>
+                                <ul>
+                                    ${agentWork.analysis.result.nextSteps.map(step => `<li>${step}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adk-coordination">
+                        <h5>🤝 Agent Coordination (Alex)</h5>
+                        <div class="agent-result">
+                            <p><strong>Session ID:</strong> ${agentWork.coordination.result.collaborationSessionId}</p>
+                            <p><strong>Estimated Cost:</strong> ${agentWork.coordination.result.estimatedCost}</p>
+                            <p><strong>Priority:</strong> ${agentWork.coordination.result.priority}</p>
+                            <p><strong>Execution:</strong> ${agentWork.coordination.result.executionOrder}</p>
+                        </div>
+                    </div>
+
+                    <div class="adk-progress">
+                        <h5>📊 Progress Tracking (Alex)</h5>
+                        <div class="agent-result">
+                            <p><strong>Overall Progress:</strong> ${agentWork.progress.result.overallProgress}%</p>
+                            <p><strong>Current Phase:</strong> ${agentWork.progress.result.currentPhase}</p>
+                            <p><strong>Timeline Status:</strong> ${agentWork.progress.result.timelineStatus}</p>
+                            <p><strong>Budget Utilization:</strong> ${agentWork.progress.result.budgetUtilization}%</p>
+                            <p><strong>Confidence:</strong> ${agentWork.progress.result.confidenceLevel}%</p>
+                            
+                            <div class="task-breakdown">
+                                <strong>Completed Tasks:</strong>
+                                <ul>
+                                    ${agentWork.progress.result.completedTasks.map(task => `<li>✅ ${task}</li>`).join('')}
+                                </ul>
+                                
+                                <strong>Active Tasks:</strong>
+                                <ul>
+                                    ${agentWork.progress.result.activeTasks.map(task => `<li>🔄 ${task}</li>`).join('')}
+                                </ul>
+                                
+                                <strong>Upcoming Tasks:</strong>
+                                <ul>
+                                    ${agentWork.progress.result.upcomingTasks.map(task => `<li>📋 ${task}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cost-summary">
+                        <h5>💰 Cost Summary</h5>
+                        <div class="cost-breakdown">
+                            <p><strong>Total Agent Cost:</strong> $${agentWork.totalCost}</p>
+                            <p><strong>Overall Confidence:</strong> ${agentWork.confidenceLevel}%</p>
+                            <p><strong>Completed:</strong> ${agentWork.completedAt}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                adkWorkContainer.innerHTML = '<p>No Google ADK agent work available yet.</p>';
+            }
+        }
+
+        function closeHumanReviewModal() {
+            document.getElementById('humanReviewModal').style.display = 'none';
+            currentReviewProject = null;
+            document.getElementById('feedbackForm').style.display = 'none';
+            clearAdjustmentForm();
+        }
+
+        function clearAdjustmentForm() {
+            document.getElementById('strategyAdjustments').value = '';
+            document.getElementById('timelineAdjustments').value = '';
+            document.getElementById('budgetAdjustments').value = '';
+            document.getElementById('additionalNotes').value = '';
+            document.getElementById('agentFeedback').value = '';
+        }
+
+        async function approveForCoe() {
+            if (!currentReviewProject) return;
+
+            // Get any adjustments made by human
+            const adjustments = {
+                strategy: document.getElementById('strategyAdjustments').value,
+                timeline: document.getElementById('timelineAdjustments').value,
+                budget: document.getElementById('budgetAdjustments').value,
+                notes: document.getElementById('additionalNotes').value
+            };
+
+            try {
+                const response = await fetch(`/api/projects/${currentReviewProject.id}/human-review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        decision: 'approve',
+                        adjustments: adjustments,
+                        feedback: 'Human approved for CoE review'
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('✅ Project approved for CoE review!');
+                    closeHumanReviewModal();
+                    loadHumanReviewQueue();
+                }
+            } catch (error) {
+                console.error('Error approving project:', error);
+                alert('Error approving project');
+            }
+        }
+
+        function requestAdjustments() {
+            document.getElementById('feedbackForm').style.display = 'block';
+        }
+
+        function rejectWork() {
+            document.getElementById('feedbackForm').style.display = 'block';
+        }
+
+        async function submitHumanReview(decision) {
+            const feedback = document.getElementById('agentFeedback').value;
+            if (!feedback.trim()) {
+                alert('Please provide feedback for the AI agents');
+                return;
+            }
+
+            const adjustments = {
+                strategy: document.getElementById('strategyAdjustments').value,
+                timeline: document.getElementById('timelineAdjustments').value,
+                budget: document.getElementById('budgetAdjustments').value,
+                notes: document.getElementById('additionalNotes').value
+            };
+
+            try {
+                const response = await fetch(`/api/projects/${currentReviewProject.id}/human-review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        decision: decision,
+                        adjustments: adjustments,
+                        feedback: feedback
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    const message = decision === 'adjust' ? 
+                        '📝 Adjustment request sent to Google ADK agents' : 
+                        '❌ Work rejected - agents will restart';
+                    alert(message);
+                    closeHumanReviewModal();
+                    loadHumanReviewQueue();
+                }
+            } catch (error) {
+                console.error('Error submitting human review:', error);
+                alert('Error submitting review');
+            }
+        }
+
+        function cancelFeedback() {
+            document.getElementById('feedbackForm').style.display = 'none';
+            document.getElementById('agentFeedback').value = '';
+        }
+
+        // Socket.io listeners
+        socket.on('projectUpdate', (data) => {
+            if (data.needsHumanReview || data.status === 'agent_work_complete') {
+                loadHumanReviewQueue();
+            }
+        });
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadHumanReviewQueue, 30000);
+    </script>
+</body>
+</html>

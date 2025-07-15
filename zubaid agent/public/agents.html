@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agents - zubaid AI Agency</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌟 zubaid AI Agency</h1>
+            <p>AI Agent Network</p>
+        </header>
+
+        <nav class="nav">
+            <a href="/" class="nav-link">Submit Brief</a>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/review" class="nav-link">Review Center</a>
+            <a href="/agents" class="nav-link active">AI Agents</a>
+        </nav>
+
+        <main class="main">
+            <div class="agents-container">
+                <div class="agents-header">
+                    <h2>Our 12 Specialized AI Agents</h2>
+                    <p>Each agent is optimized for specific creative and strategic tasks</p>
+                    
+                    <!-- AI Provider Strategy Display -->
+                    <div class="ai-strategy-display" id="aiStrategyDisplay">
+                        <h3>🤖 Current AI Strategy: <span id="currentStrategy">Loading...</span></h3>
+                        <div class="provider-status" id="providerStatus">
+                            <!-- Provider status will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tier-section">
+                    <h3>Tier 1: Strategic Leadership ($8/interaction)</h3>
+                    <p>Premium agents powered by Claude Sonnet 4 for complex strategic thinking</p>
+                    <div id="tier1Agents" class="agents-grid"></div>
+                </div>
+
+                <div class="tier-section">
+                    <h3>Tier 2: Creative Excellence ($5-6/interaction)</h3>
+                    <p>Creative specialists using GPT-4o for brand and content development</p>
+                    <div id="tier2Agents" class="agents-grid"></div>
+                </div>
+
+                <div class="tier-section">
+                    <h3>Tier 3: Execution ($3/interaction)</h3>
+                    <p>Tactical execution with GPT-4 Turbo for media and distribution</p>
+                    <div id="tier3Agents" class="agents-grid"></div>
+                </div>
+
+                <div class="tier-section">
+                    <h3>Tier 4: Operations ($1/interaction)</h3>
+                    <p>Efficient operational tasks using Claude Haiku</p>
+                    <div id="tier4Agents" class="agents-grid"></div>
+                </div>
+
+                <!-- Live Workflow Visualization -->
+                <div class="workflow-section">
+                    <h3>🔄 Live Agent Workflows</h3>
+                    <div id="liveWorkflows" class="workflow-container">
+                        <!-- Live workflows will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Agent Performance & Outcomes -->
+                <div class="agent-stats">
+                    <h3>Network Performance & Outcomes</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalInteractions">0</div>
+                            <div class="stat-label">Total Interactions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="averageConfidence">0%</div>
+                            <div class="stat-label">Average Confidence</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="activeAgents">0</div>
+                            <div class="stat-label">Active Agents</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="completedProjects">0</div>
+                            <div class="stat-label">Completed Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalRevenue">$0</div>
+                            <div class="stat-label">Total Revenue</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="costEfficiency">0</div>
+                            <div class="stat-label">Efficiency Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time Activity Feed -->
+                <div class="activity-section">
+                    <h3>🚀 Real-Time Agent Activity</h3>
+                    <div id="agentActivityFeed" class="activity-feed">
+                        <!-- Activity items will be added here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // Load agent data and initialize
+        loadAgents();
+        loadAIStrategy();
+        loadActiveWorkflows();
+        loadProjectStats();
+
+        async function loadAgents() {
+            try {
+                const response = await fetch('/api/agents');
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderAgents(result.agents);
+                    updateStats(result.agents);
+                }
+            } catch (error) {
+                console.error('Error loading agents:', error);
+            }
+        }
+
+        function renderAgents(agents) {
+            // Group agents by tier
+            const tiers = {
+                1: [],
+                2: [],
+                3: [],
+                4: []
+            };
+
+            agents.forEach(agent => {
+                tiers[agent.tier].push(agent);
+            });
+
+            // Render each tier
+            Object.keys(tiers).forEach(tier => {
+                const container = document.getElementById(`tier${tier}Agents`);
+                container.innerHTML = '';
+                
+                tiers[tier].forEach(agent => {
+                    const agentCard = createAgentCard(agent);
+                    container.appendChild(agentCard);
+                });
+            });
+        }
+
+        function createAgentCard(agent) {
+            const card = document.createElement('div');
+            card.className = 'agent-card';
+            
+            const statusClass = agent.status === 'busy' ? 'status-busy' : 'status-available';
+            const workingIcon = agent.status === 'busy' ? '⚡' : '💤';
+            
+            card.innerHTML = `
+                <div class="agent-header">
+                    <h4>${agent.emoji} ${agent.name}</h4>
+                    <span class="agent-status ${statusClass}">${workingIcon} ${agent.status}</span>
+                </div>
+                <div class="agent-details">
+                    <p class="agent-role">${agent.role}</p>
+                    <div class="agent-meta">
+                        <span class="agent-model">${agent.model}</span>
+                        <span class="agent-rate">$${agent.rate}/interaction</span>
+                    </div>
+                </div>
+                <div class="agent-stats">
+                    <div class="stat">
+                        <span class="stat-label">Interactions:</span>
+                        <span class="stat-value">${agent.totalInteractions}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Avg Confidence:</span>
+                        <span class="stat-value">${agent.averageConfidence.toFixed(1)}%</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Success Rate:</span>
+                        <span class="stat-value">${agent.successRate || 95}%</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Current Task:</span>
+                        <span class="stat-value">${agent.currentTask || 'Ready'}</span>
+                    </div>
+                </div>
+                ${agent.recentWork ? `
+                    <div class="agent-recent-work">
+                        <h5>Recent Output:</h5>
+                        <p class="recent-output">${agent.recentWork}</p>
+                    </div>
+                ` : ''}
+            `;
+            
+            // Add click handler for detailed view
+            card.addEventListener('click', () => showAgentDetails(agent));
+            
+            return card;
+        }
+
+        function updateStats(agents) {
+            const totalInteractions = agents.reduce((sum, agent) => sum + agent.totalInteractions, 0);
+            const averageConfidence = agents.reduce((sum, agent) => sum + agent.averageConfidence, 0) / agents.length;
+            const activeAgents = agents.filter(agent => agent.status === 'busy').length;
+            const costEfficiency = totalInteractions > 0 ? (averageConfidence / 100 * totalInteractions).toFixed(0) : 0;
+
+            document.getElementById('totalInteractions').textContent = totalInteractions;
+            document.getElementById('averageConfidence').textContent = averageConfidence.toFixed(1) + '%';
+            document.getElementById('activeAgents').textContent = activeAgents;
+            document.getElementById('costEfficiency').textContent = costEfficiency;
+        }
+
+        // Load AI Strategy Status
+        async function loadAIStrategy() {
+            try {
+                const response = await fetch('/api/ai-strategy');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayAIStrategy(result.strategy);
+                }
+            } catch (error) {
+                console.error('Error loading AI strategy:', error);
+            }
+        }
+
+        function displayAIStrategy(strategy) {
+            document.getElementById('currentStrategy').textContent = strategy.name || 'Multi-AI Optimized';
+            
+            const providerStatus = document.getElementById('providerStatus');
+            providerStatus.innerHTML = `
+                <div class="provider-grid">
+                    <div class="provider-item ${strategy.providers.google ? 'active' : 'inactive'}">
+                        <span class="provider-icon">⚡</span>
+                        <span class="provider-name">Google AI</span>
+                        <span class="provider-status">${strategy.providers.google ? '✅' : '❌'}</span>
+                    </div>
+                    <div class="provider-item ${strategy.providers.openai ? 'active' : 'inactive'}">
+                        <span class="provider-icon">🎨</span>
+                        <span class="provider-name">OpenAI</span>
+                        <span class="provider-status">${strategy.providers.openai ? '✅' : '❌'}</span>
+                    </div>
+                    <div class="provider-item ${strategy.providers.anthropic ? 'active' : 'inactive'}">
+                        <span class="provider-icon">🧠</span>
+                        <span class="provider-name">Anthropic</span>
+                        <span class="provider-status">${strategy.providers.anthropic ? '✅' : '❌'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load Active Workflows
+        async function loadActiveWorkflows() {
+            try {
+                const response = await fetch('/api/active-workflows');
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayActiveWorkflows(result.workflows);
+                }
+            } catch (error) {
+                console.error('Error loading workflows:', error);
+            }
+        }
+
+        function displayActiveWorkflows(workflows) {
+            const container = document.getElementById('liveWorkflows');
+            
+            if (workflows.length === 0) {
+                container.innerHTML = '<div class="empty-workflows">No active workflows. Agents are ready for new projects.</div>';
+                return;
+            }
+
+            container.innerHTML = workflows.map(workflow => `
+                <div class="workflow-item">
+                    <div class="workflow-header">
+                        <h4>🔄 ${workflow.projectName}</h4>
+                        <span class="workflow-phase">${workflow.currentPhase}</span>
+                    </div>
+                    <div class="workflow-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${workflow.progress}%"></div>
+                        </div>
+                        <span class="progress-text">${workflow.progress}% Complete</span>
+                    </div>
+                    <div class="workflow-agents">
+                        <strong>Active Agents:</strong> ${workflow.activeAgents.join(', ')}
+                    </div>
+                    <div class="workflow-next">
+                        <strong>Next Step:</strong> ${workflow.nextStep}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load Project Statistics
+        async function loadProjectStats() {
+            try {
+                const response = await fetch('/api/projects');
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateProjectStats(result.projects);
+                }
+            } catch (error) {
+                console.error('Error loading project stats:', error);
+            }
+        }
+
+        function updateProjectStats(projects) {
+            const completed = projects.filter(p => p.status === 'quote_sent').length;
+            const totalRevenue = projects.reduce((sum, p) => {
+                if (p.finalQuote) {
+                    return sum + p.finalQuote.totalCost;
+                }
+                return sum + (p.currentCost || 0);
+            }, 0);
+            
+            document.getElementById('completedProjects').textContent = completed;
+            document.getElementById('totalRevenue').textContent = `$${Math.round(totalRevenue).toLocaleString()}`;
+        }
+
+        function showAgentDetails(agent) {
+            // Create a modal or detailed view for the agent
+            alert(`${agent.name}\n\nRole: ${agent.role}\nModel: ${agent.model}\nRate: $${agent.rate}/interaction\nConfidence: ${agent.averageConfidence.toFixed(1)}%\nInteractions: ${agent.totalInteractions}`);
+        }
+
+        function addActivityItem(activity) {
+            const feed = document.getElementById('agentActivityFeed');
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.innerHTML = `
+                <div class="activity-header">
+                    <span class="activity-agent">${activity.agentName || 'System'}</span>
+                    <span class="activity-time">${new Date().toLocaleTimeString()}</span>
+                </div>
+                <div class="activity-content">
+                    <p>${activity.activity || activity.message}</p>
+                    ${activity.confidence ? `<span class="confidence-badge">Confidence: ${activity.confidence}%</span>` : ''}
+                    ${activity.projectId ? `<span class="project-badge">Project: ${activity.projectId.substring(0, 8)}...</span>` : ''}
+                </div>
+            `;
+            
+            // Add to top of feed
+            feed.insertBefore(item, feed.firstChild);
+            
+            // Keep only last 20 items
+            while (feed.children.length > 20) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        // Socket.io listeners for real-time updates
+        socket.on('agentActivity', (data) => {
+            console.log('Agent activity:', data);
+            addActivityItem(data);
+            loadAgents(); // Refresh agent status
+            loadActiveWorkflows(); // Refresh workflows
+        });
+
+        socket.on('projectUpdate', (data) => {
+            console.log('Project update:', data);
+            addActivityItem({
+                message: `Project ${data.projectId.substring(0, 8)}... - ${data.message}`,
+                agentName: 'System'
+            });
+            loadActiveWorkflows();
+            loadProjectStats();
+        });
+
+        socket.on('workflowUpdate', (data) => {
+            console.log('Workflow update:', data);
+            loadActiveWorkflows();
+        });
+
+        // Auto-refresh every 15 seconds for real-time feel
+        setInterval(() => {
+            loadAgents();
+            loadActiveWorkflows();
+            loadProjectStats();
+        }, 15000);
+
+        // Initial load of AI strategy every 60 seconds
+        setInterval(loadAIStrategy, 60000);
+    </script>
+</body>
+</html>

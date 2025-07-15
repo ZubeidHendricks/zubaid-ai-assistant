@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoE Review - zubaid AI Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'segoe': ['Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        'win11': {
+                            'bg': '#f3f3f3',
+                            'card': '#ffffff',
+                            'sidebar': '#f9f9f9',
+                            'accent': '#0067c0',
+                            'accent-hover': '#106ebe',
+                            'border': '#e5e5e5',
+                            'text': '#323130',
+                            'text-secondary': '#605e5c',
+                            'success': '#107c10',
+                            'warning': '#ff8c00',
+                            'error': '#d13438'
+                        }
+                    },
+                    boxShadow: {
+                        'win11': '0 8px 16px rgba(0,0,0,0.1)',
+                        'win11-hover': '0 16px 32px rgba(0,0,0,0.15)',
+                        'win11-card': '0 2px 8px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .glass-effect {
+            backdrop-filter: blur(30px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .win11-button {
+            transition: all 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+        }
+        .win11-button:hover {
+            transform: translateY(-1px);
+        }
+        .win11-card {
+            transition: all 0.3s cubic-bezier(0.3, 0, 0.5, 1);
+        }
+        .win11-card:hover {
+            transform: translateY(-2px);
+        }
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-slide-up {
+            animation: slideInUp 0.4s ease-out;
+        }
+        .scroll-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-win11-bg font-segoe">
+    <!-- Top Navigation Bar -->
+    <nav class="glass-effect border-b border-win11-border sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-win11-accent to-blue-600 rounded-3xl flex items-center justify-center shadow-win11-card">
+                        <span class="text-white font-bold text-lg">🌟</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-semibold text-win11-text">zubaid AI Agency</h1>
+                        <p class="text-sm text-win11-text-secondary">Center of Excellence (CoE)</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/index-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        Submit Brief
+                    </a>
+                    <a href="/dashboard-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        Dashboard
+                    </a>
+                    <a href="/agents-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        AI Agents
+                    </a>
+                    <a href="/human-review-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        Human Review
+                    </a>
+                    <a href="/coe-review-win11" class="px-4 py-2 text-sm font-medium text-white bg-win11-accent hover:bg-win11-accent-hover rounded-3xl transition-all duration-200">
+                        CoE Review
+                    </a>
+                </div>
+
+                <!-- Status Indicator -->
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-2 px-3 py-1 bg-purple-50 border border-purple-200 rounded-3xl">
+                        <div class="w-2 h-2 bg-purple-600 rounded-full animate-pulse"></div>
+                        <span class="text-xs font-medium text-purple-600" id="coeCountBadge">Final Review</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-16 bg-gradient-to-br from-purple-50 via-white to-blue-50">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="animate-slide-up">
+                <h1 class="text-4xl md:text-5xl font-bold text-win11-text mb-6">
+                    Center of 
+                    <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                        Excellence
+                    </span>
+                </h1>
+                <p class="text-xl text-win11-text-secondary mb-8 max-w-3xl mx-auto">
+                    Final quality gate and approval for client quotes. Ensure strategic excellence and pricing accuracy before delivery.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Pending Final Approval</p>
+                        <p class="text-2xl font-bold text-purple-600" id="pendingApprovals">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Quotes Sent Today</p>
+                        <p class="text-2xl font-bold text-green-600" id="quotesSentToday">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Escalations</p>
+                        <p class="text-2xl font-bold text-red-600" id="escalationsCount">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-red-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Average Quote Value</p>
+                        <p class="text-2xl font-bold text-blue-600" id="avgQuoteValue">--</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Queue -->
+        <div class="win11-card bg-win11-card rounded-3xl shadow-win11-card hover:shadow-win11">
+            <div class="p-6 border-b border-win11-border">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-win11-text">Projects Ready for Final CoE Approval</h2>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="refreshCoeQueue()" class="win11-button px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-3xl text-sm font-medium transition-all duration-200">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="coeReviewQueue" class="space-y-4">
+                    <!-- Review items will be loaded here -->
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="text-win11-text-secondary">No projects pending final CoE approval</p>
+                        <p class="text-sm text-win11-text-secondary mt-2">All projects are processing or completed!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- CoE Review Modal -->
+    <div id="coeReviewModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-win11-card rounded-3xl shadow-win11 max-w-6xl w-full max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between p-6 border-b border-win11-border">
+                <h3 id="modalProjectTitle" class="text-lg font-semibold text-win11-text">CoE Final Review</h3>
+                <button onclick="closeCoeReviewModal()" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-3xl flex items-center justify-center transition-colors">
+                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto max-h-[calc(90vh-180px)] scroll-hide">
+                <!-- Project Summary -->
+                <div class="bg-purple-50 rounded-3xl p-6 mb-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">Project Summary</h4>
+                    <div id="projectSummary" class="space-y-3">
+                        <!-- Project details will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Workflow Summary -->
+                <div class="bg-gray-50 rounded-3xl p-6 mb-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">Workflow Summary</h4>
+                    <div id="workflowSummary" class="space-y-4">
+                        <!-- Workflow details will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Quote Preview -->
+                <div class="bg-green-50 rounded-3xl p-6 mb-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">Quote Preview</h4>
+                    <div id="quotePreview" class="space-y-4">
+                        <!-- Quote details will be populated here -->
+                    </div>
+                </div>
+
+                <!-- CoE Adjustments -->
+                <div class="bg-blue-50 rounded-3xl p-6 mb-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">CoE Quote Adjustments (Optional)</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="priceAdjustment" class="block text-sm font-semibold text-win11-text mb-2">
+                                Price Adjustment
+                            </label>
+                            <select id="priceAdjustment" class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200">
+                                <option value="1.0">No adjustment</option>
+                                <option value="0.9">10% discount</option>
+                                <option value="0.95">5% discount</option>
+                                <option value="1.05">5% premium</option>
+                                <option value="1.1">10% premium</option>
+                                <option value="1.15">15% premium</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="deliveryAdjustment" class="block text-sm font-semibold text-win11-text mb-2">
+                                Delivery Timeline
+                            </label>
+                            <select id="deliveryAdjustment" class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200">
+                                <option value="standard">Standard timeline</option>
+                                <option value="expedited">Expedited (+20%)</option>
+                                <option value="rush">Rush delivery (+50%)</option>
+                                <option value="extended">Extended timeline (-10%)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="scopeAdjustments" class="block text-sm font-semibold text-win11-text mb-2">
+                                Scope Adjustments
+                            </label>
+                            <textarea id="scopeAdjustments" rows="3" 
+                                     class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200 resize-none"
+                                     placeholder="Any scope modifications for the final quote..."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="clientNotes" class="block text-sm font-semibold text-win11-text mb-2">
+                                Client-Facing Notes
+                            </label>
+                            <textarea id="clientNotes" rows="3" 
+                                     class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200 resize-none"
+                                     placeholder="Additional notes to include in the client quote..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CoE Decision -->
+                <div class="bg-white border-2 border-win11-border rounded-3xl p-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">CoE Decision</h4>
+                    
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <button onclick="approveAndSendQuote()" class="win11-button w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl font-medium transition-all duration-200">
+                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Approve & Send Quote
+                            </button>
+                            
+                            <button onclick="requestChanges()" class="win11-button w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-3xl font-medium transition-all duration-200">
+                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                Request Changes
+                            </button>
+                            
+                            <button onclick="escalateToSeniorCoe()" class="win11-button w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-3xl font-medium transition-all duration-200">
+                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                Escalate to Senior CoE
+                            </button>
+                        </div>
+
+                        <div id="coeChangeForm" class="hidden mt-4">
+                            <label for="coeChangeFeedback" class="block text-sm font-semibold text-win11-text mb-2">
+                                Change Request Details:
+                            </label>
+                            <textarea id="coeChangeFeedback" rows="4" 
+                                     class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200 resize-none"
+                                     placeholder="Specify what changes are needed before approval..."></textarea>
+                            <div class="flex space-x-3 mt-4">
+                                <button onclick="submitCoeReview('request_changes')" class="win11-button flex-1 bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Submit Change Request
+                                </button>
+                                <button onclick="cancelCoeChanges()" class="win11-button px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="escalationForm" class="hidden mt-4">
+                            <label for="escalationReason" class="block text-sm font-semibold text-win11-text mb-2">
+                                Escalation Reason:
+                            </label>
+                            <select id="escalationReason" class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200 mb-3">
+                                <option value="">Select escalation reason...</option>
+                                <option value="high_risk">High-risk project requiring senior oversight</option>
+                                <option value="complex_pricing">Complex pricing structure needs approval</option>
+                                <option value="strategic_importance">Strategic client requiring senior attention</option>
+                                <option value="quality_concerns">Quality concerns requiring expert review</option>
+                                <option value="budget_exceeded">Project exceeded budget thresholds</option>
+                            </select>
+                            <textarea id="escalationNotes" rows="3" 
+                                     class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200 resize-none"
+                                     placeholder="Additional context for senior CoE..."></textarea>
+                            <div class="flex space-x-3 mt-4">
+                                <button onclick="submitCoeReview('escalate')" class="win11-button flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Submit Escalation
+                                </button>
+                                <button onclick="cancelEscalation()" class="win11-button px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentCoeProject = null;
+        let coeReviewProjects = [];
+
+        // Load initial data
+        loadCoeReviewQueue();
+        loadCoeStats();
+
+        async function loadCoeReviewQueue() {
+            try {
+                const response = await fetch('/api/coe-review/queue');
+                const result = await response.json();
+                
+                if (result.success) {
+                    coeReviewProjects = result.projects;
+                    renderCoeReviewQueue();
+                    updateCoeCountBadge();
+                }
+            } catch (error) {
+                console.error('Error loading CoE review queue:', error);
+            }
+        }
+
+        async function loadCoeStats() {
+            try {
+                const response = await fetch('/api/coe-review/stats');
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('pendingApprovals').textContent = result.stats.pending || 0;
+                    document.getElementById('quotesSentToday').textContent = result.stats.sentToday || 0;
+                    document.getElementById('escalationsCount').textContent = result.stats.escalations || 0;
+                    document.getElementById('avgQuoteValue').textContent = result.stats.avgQuoteValue || '--';
+                }
+            } catch (error) {
+                console.error('Error loading CoE stats:', error);
+            }
+        }
+
+        function renderCoeReviewQueue() {
+            const queue = document.getElementById('coeReviewQueue');
+            
+            if (coeReviewProjects.length === 0) {
+                queue.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="text-win11-text-secondary">No projects pending final CoE approval</p>
+                        <p class="text-sm text-win11-text-secondary mt-2">All projects are processing or completed!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            queue.innerHTML = coeReviewProjects.map(project => createCoeReviewCardHTML(project)).join('');
+        }
+
+        function createCoeReviewCardHTML(project) {
+            const priority = getCoePriority(project);
+            const priorityClass = getPriorityClass(priority);
+            const estimatedQuote = calculateEstimatedQuote(project);
+            const timeAgo = getTimeAgo(project.submittedAt);
+            
+            return `
+                <div class="win11-card bg-white rounded-3xl p-6 border-l-4 ${priorityClass.border} hover:shadow-win11 transition-all duration-300">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-win11-text mb-1">${project.projectName}</h3>
+                            <p class="text-sm text-win11-text-secondary mb-2">${project.clientName}</p>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-xs text-win11-text-secondary">Submitted: ${timeAgo}</span>
+                                <span class="px-2 py-1 ${priorityClass.bg} ${priorityClass.text} rounded-2xl text-xs font-medium">
+                                    ${priority.toUpperCase()} PRIORITY
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-bold text-green-600">$${estimatedQuote.toLocaleString()}</div>
+                            <div class="text-xs text-win11-text-secondary">Est. Quote</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Budget:</span>
+                            <span class="font-medium text-win11-text">$${project.budget.toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Current Cost:</span>
+                            <span class="font-medium text-win11-text">$${(project.currentCost || 0).toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Iterations:</span>
+                            <span class="font-medium text-win11-text">${project.iterations || 0}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Est. Margin:</span>
+                            <span class="font-medium text-green-600">${((estimatedQuote - (project.currentCost || 0)) / estimatedQuote * 100).toFixed(1)}%</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-2xl p-3 mb-4 text-sm">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-win11-text-secondary">Workflow Status:</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <span class="${project.agentWork ? 'text-green-600' : 'text-gray-400'}">
+                                    ${project.agentWork ? '✅' : '🔄'}
+                                </span>
+                                <span class="text-xs">AI Agent Work</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="${project.humanReview ? 'text-green-600' : 'text-gray-400'}">
+                                    ${project.humanReview ? '✅' : '⏳'}
+                                </span>
+                                <span class="text-xs">Human Review</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <button onclick="openCoeReviewModal('${project.id}')" class="win11-button flex-1 px-4 py-2 bg-win11-accent hover:bg-win11-accent-hover text-white rounded-3xl text-sm font-medium transition-all duration-200">
+                            Final CoE Review
+                        </button>
+                        <button onclick="quickApproveQuote('${project.id}')" class="win11-button px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-3xl text-sm font-medium transition-all duration-200">
+                            Quick Approve
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getCoePriority(project) {
+            if (project.budget > 250000) return 'high';
+            if (project.budget > 100000 || (project.iterations || 0) > 2) return 'medium';
+            return 'low';
+        }
+
+        function getPriorityClass(priority) {
+            if (priority === 'high') {
+                return { 
+                    border: 'border-red-500', 
+                    bg: 'bg-red-100', 
+                    text: 'text-red-800' 
+                };
+            } else if (priority === 'medium') {
+                return { 
+                    border: 'border-orange-500', 
+                    bg: 'bg-orange-100', 
+                    text: 'text-orange-800' 
+                };
+            }
+            return { 
+                border: 'border-green-500', 
+                bg: 'bg-green-100', 
+                text: 'text-green-800' 
+            };
+        }
+
+        function calculateEstimatedQuote(project) {
+            const baseCost = project.currentCost || 0;
+            const complexityMultiplier = project.budget > 100000 ? 1.5 : 1.3;
+            const iterationPenalty = calculateIterationPenalty(project.iterations || 0);
+            return (baseCost * complexityMultiplier) + iterationPenalty;
+        }
+
+        function calculateIterationPenalty(iterations) {
+            if (iterations <= 2) return 0;
+            if (iterations <= 5) return (iterations - 2) * 8;
+            return ((iterations - 5) * 15) + (3 * 8);
+        }
+
+        function generateComprehensiveWorkflowAnalysis(project) {
+            let html = `
+                <!-- Workflow Status Overview -->
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-2xl border border-win11-border">
+                            <div class="w-8 h-8 ${project.agentWork ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'} rounded-full flex items-center justify-center">
+                                ${project.agentWork ? '✅' : '🔄'}
+                            </div>
+                            <div class="flex-1">
+                                <h5 class="font-semibold text-win11-text">AI Agent Work</h5>
+                                <p class="text-sm text-win11-text-secondary">
+                                    ${project.agentWork ? 
+                                        `${project.agentWork.confidenceLevel}% confidence` : 
+                                        'In progress'
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 bg-white rounded-2xl border border-win11-border">
+                            <div class="w-8 h-8 ${project.humanReview ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'} rounded-full flex items-center justify-center">
+                                ${project.humanReview ? '✅' : '⏳'}
+                            </div>
+                            <div class="flex-1">
+                                <h5 class="font-semibold text-win11-text">Human Review</h5>
+                                <p class="text-sm text-win11-text-secondary">
+                                    ${project.humanReview ? 
+                                        `${project.humanReview.decision === 'approve' ? 'Approved' : 'Adjusted'}` : 
+                                        'Pending'
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 bg-purple-50 rounded-2xl border border-purple-200">
+                            <div class="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center">
+                                🎯
+                            </div>
+                            <div class="flex-1">
+                                <h5 class="font-semibold text-win11-text">CoE Review</h5>
+                                <p class="text-sm text-win11-text-secondary">Ready for approval</p>
+                            </div>
+                        </div>
+                    </div>
+            `;
+
+            // Add comprehensive agent findings if available
+            if (project.agentWork) {
+                html += generateAgentWorkAnalysis(project.agentWork);
+            }
+
+            // Add human review details if available
+            if (project.humanReview) {
+                html += generateHumanReviewAnalysis(project.humanReview);
+            }
+
+            // Add risk assessment
+            html += generateRiskAssessment(project);
+
+            html += `</div>`;
+            return html;
+        }
+
+        function generateAgentWorkAnalysis(agentWork) {
+            const isEnhanced = agentWork.source === 'ENHANCED_AI_POWERED';
+            
+            let html = `
+                <!-- Comprehensive AI Agent Analysis -->
+                <div class="mt-6 p-6 ${isEnhanced ? 'bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200' : 'bg-gray-50'} rounded-2xl border">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <h4 class="text-lg font-semibold text-win11-text">
+                            ${isEnhanced ? '🚀 Enhanced AI Analysis' : '🤖 AI Agent Analysis'}
+                        </h4>
+                        ${isEnhanced ? '<span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">MULTI-AI POWERED</span>' : ''}
+                    </div>
+                    
+                    <!-- Strategic Phase Analysis -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <h5 class="font-semibold text-win11-text text-blue-700">🎯 Strategic Phase Results</h5>
+                            
+                            ${agentWork.analysis ? `
+                                <div class="bg-white p-4 rounded-xl border border-blue-200">
+                                    <h6 class="font-medium text-win11-text mb-2">📋 Brief Analysis (Alex 🎯)</h6>
+                                    <div class="grid grid-cols-2 gap-3 text-sm">
+                                        <div><strong>Complexity Score:</strong> ${agentWork.analysis.result.complexityScore}/10</div>
+                                        <div><strong>Confidence:</strong> ${agentWork.analysis.result.confidenceLevel}%</div>
+                                        <div class="col-span-2"><strong>Required Agents:</strong> ${agentWork.analysis.result.requiredAgents.join(', ')}</div>
+                                        <div class="col-span-2"><strong>Key Objectives:</strong> ${agentWork.analysis.result.projectScope.primaryObjectives.slice(0, 2).join(', ')}</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${agentWork.research ? `
+                                <div class="bg-white p-4 rounded-xl border border-green-200">
+                                    <h6 class="font-medium text-win11-text mb-2">🔍 Market Research (Riley 🔍)</h6>
+                                    <div class="text-sm space-y-2">
+                                        <div><strong>Market Size:</strong> ${agentWork.research.result.marketSize.total}</div>
+                                        <div><strong>Target Audience:</strong> ${agentWork.research.result.targetAudience.primary}</div>
+                                        <div><strong>Top Competitors:</strong> ${agentWork.research.result.competitorAnalysis.slice(0, 2).map(c => c.name).join(', ')}</div>
+                                        <div><strong>Confidence:</strong> ${agentWork.research.result.confidenceLevel}%</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${agentWork.strategy ? `
+                                <div class="bg-white p-4 rounded-xl border border-orange-200">
+                                    <h6 class="font-medium text-win11-text mb-2">📋 Strategic Framework (Sam 📋)</h6>
+                                    <div class="text-sm space-y-2">
+                                        <div><strong>Key Messages:</strong> ${agentWork.strategy.result.keyMessages.slice(0, 2).join(', ')}</div>
+                                        <div><strong>Digital Channels:</strong> ${agentWork.strategy.result.channelStrategy.digital.join(', ')}</div>
+                                        <div><strong>Success Metrics:</strong> ${agentWork.strategy.result.successMetrics.slice(0, 2).join(', ')}</div>
+                                        <div><strong>Confidence:</strong> ${agentWork.strategy.result.confidenceLevel}%</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <!-- Creative Phase Analysis -->
+                        <div class="space-y-4">
+                            <h5 class="font-semibold text-win11-text text-purple-700">🎨 Creative Phase Results</h5>
+                            
+                            ${agentWork.logoDesign ? `
+                                <div class="bg-white p-4 rounded-xl border border-purple-200">
+                                    <h6 class="font-medium text-win11-text mb-2">🎨 Logo Design (Zara 🎨)</h6>
+                                    <div class="text-sm space-y-2">
+                                        <div><strong>Concepts Generated:</strong> ${agentWork.logoDesign.result.logoConceptsGenerated}</div>
+                                        <div><strong>Primary Concept:</strong> ${agentWork.logoDesign.result.primaryConcept.name}</div>
+                                        <div><strong>Design Elements:</strong> ${agentWork.logoDesign.result.primaryConcept.designElements.slice(0, 2).join(', ')}</div>
+                                        <div><strong>Confidence:</strong> ${agentWork.logoDesign.result.confidenceLevel}%</div>
+                                    </div>
+                                    ${agentWork.logoImages ? `
+                                        <div class="mt-3 flex items-center space-x-2">
+                                            <img src="${agentWork.logoImages.result.imageUrl}" alt="Generated Logo" class="w-16 h-16 object-contain border rounded-lg bg-white">
+                                            <div class="text-xs text-win11-text-secondary">
+                                                <div>✨ AI-Generated Logo</div>
+                                                <div>Style: ${agentWork.logoImages.result.style}</div>
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            ` : ''}
+                            
+                            ${agentWork.colorPalette ? `
+                                <div class="bg-white p-4 rounded-xl border border-pink-200">
+                                    <h6 class="font-medium text-win11-text mb-2">🌈 Color Palette (Zara 🎨)</h6>
+                                    <div class="text-sm space-y-2">
+                                        <div class="flex items-center space-x-2">
+                                            <strong>Primary Colors:</strong>
+                                            ${agentWork.colorPalette.result.primaryColors.slice(0, 3).map(c => 
+                                                `<span class="w-4 h-4 rounded border" style="background-color: ${c.hex}" title="${c.name}"></span>`
+                                            ).join('')}
+                                        </div>
+                                        <div><strong>Accessibility:</strong> ${agentWork.colorPalette.result.accessibilityNotes}</div>
+                                        <div><strong>Confidence:</strong> ${agentWork.colorPalette.result.confidenceLevel}%</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${agentWork.brandVoice ? `
+                                <div class="bg-white p-4 rounded-xl border border-indigo-200">
+                                    <h6 class="font-medium text-win11-text mb-2">✍️ Brand Voice (Blake ✍️)</h6>
+                                    <div class="text-sm space-y-2">
+                                        <div><strong>Personality:</strong> ${agentWork.brandVoice.result.brandVoice.personality.join(', ')}</div>
+                                        <div><strong>Tone:</strong> ${agentWork.brandVoice.result.brandVoice.tone}</div>
+                                        <div><strong>Example:</strong> "${agentWork.brandVoice.result.exampleContent.greeting}"</div>
+                                        <div><strong>Confidence:</strong> ${agentWork.brandVoice.result.confidenceLevel}%</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${agentWork.taglines ? `
+                                <div class="bg-white p-4 rounded-xl border border-yellow-200">
+                                    <h6 class="font-medium text-win11-text mb-2">🏷️ Taglines (Blake ✍️)</h6>
+                                    <div class="text-sm space-y-2">
+                                        <div><strong>Primary:</strong> "${agentWork.taglines.result.primaryTagline}"</div>
+                                        <div><strong>Alternatives:</strong> ${agentWork.taglines.result.alternativeTaglines.slice(0, 2).join(', ')}</div>
+                                        <div><strong>Brand Alignment:</strong> ${agentWork.taglines.result.taglineAnalysis.primary.brandAlignment}/10</div>
+                                        <div><strong>Confidence:</strong> ${agentWork.taglines.result.confidenceLevel}%</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <!-- Quality & Summary -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${agentWork.brandGuidelines ? `
+                            <div class="bg-white p-4 rounded-xl border border-teal-200">
+                                <h6 class="font-medium text-win11-text mb-2">📦 Brand Guidelines (Nova 📦)</h6>
+                                <div class="text-sm space-y-1">
+                                    <div><strong>Sections:</strong> ${agentWork.brandGuidelines.result.guidelinesSections.length} comprehensive sections</div>
+                                    <div><strong>Mission:</strong> ${agentWork.brandGuidelines.result.brandIntroduction.mission}</div>
+                                    <div><strong>Confidence:</strong> ${agentWork.brandGuidelines.result.confidenceLevel}%</div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${agentWork.phaseSummary ? `
+                            <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-4 rounded-xl border border-blue-200">
+                                <h6 class="font-medium text-win11-text mb-2">🎯 Workflow Summary</h6>
+                                <div class="text-sm space-y-1">
+                                    <div><strong>Total Steps:</strong> ${agentWork.phaseSummary.totalSteps}</div>
+                                    <div><strong>Agents Involved:</strong> ${agentWork.phaseSummary.agentsInvolved}</div>
+                                    <div><strong>Overall Confidence:</strong> ${agentWork.confidenceLevel}%</div>
+                                    <div><strong>Total Cost:</strong> $${agentWork.totalCost}</div>
+                                    ${agentWork.phaseSummary.aiProvidersUsed ? `<div><strong>AI Strategy:</strong> ${agentWork.phaseSummary.aiProvidersUsed}</div>` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Enhanced AI Features -->
+                    ${isEnhanced ? `
+                        <div class="mt-6 p-4 bg-gradient-to-r from-purple-100 to-blue-100 rounded-xl border border-purple-300">
+                            <h6 class="font-medium text-purple-800 mb-3">🚀 Enhanced Multi-AI Features</h6>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">🧠</div>
+                                    <div class="text-xs font-medium">Anthropic Claude</div>
+                                    <div class="text-xs text-purple-600">Advanced Reasoning</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">🎨</div>
+                                    <div class="text-xs font-medium">OpenAI GPT-4</div>
+                                    <div class="text-xs text-purple-600">Creative Excellence</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">🖼️</div>
+                                    <div class="text-xs font-medium">DALL-E 3</div>
+                                    <div class="text-xs text-purple-600">Image Generation</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl mb-1">⚡</div>
+                                    <div class="text-xs font-medium">Google Gemini</div>
+                                    <div class="text-xs text-purple-600">Fast Coordination</div>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            return html;
+        }
+
+        function generateHumanReviewAnalysis(humanReview) {
+            return `
+                <!-- Human Review Analysis -->
+                <div class="mt-6 p-6 bg-blue-50 rounded-2xl border border-blue-200">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">👤 Human Quality Review</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-xl">
+                            <h6 class="font-medium text-win11-text mb-2">Review Decision</h6>
+                            <div class="text-sm space-y-2">
+                                <div><strong>Status:</strong> 
+                                    <span class="px-2 py-1 ${humanReview.decision === 'approve' ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'} rounded-full text-xs">
+                                        ${humanReview.decision === 'approve' ? 'APPROVED' : 'ADJUSTMENTS MADE'}
+                                    </span>
+                                </div>
+                                <div><strong>Reviewed:</strong> ${new Date(humanReview.reviewedAt).toLocaleString()}</div>
+                                <div><strong>Review Cost:</strong> $${humanReview.cost || 0}</div>
+                            </div>
+                        </div>
+                        
+                        ${humanReview.feedback ? `
+                            <div class="bg-white p-4 rounded-xl">
+                                <h6 class="font-medium text-win11-text mb-2">Reviewer Feedback</h6>
+                                <p class="text-sm text-win11-text-secondary italic">"${humanReview.feedback}"</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${humanReview.adjustments ? `
+                        <div class="mt-4 bg-white p-4 rounded-xl">
+                            <h6 class="font-medium text-win11-text mb-3">Adjustments Made</h6>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                ${Object.entries(humanReview.adjustments).map(([key, value]) => 
+                                    value ? `
+                                        <div class="p-2 bg-orange-50 rounded border border-orange-200">
+                                            <strong>${key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}:</strong><br>
+                                            <span class="text-win11-text-secondary">${value}</span>
+                                        </div>
+                                    ` : ''
+                                ).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function generateRiskAssessment(project) {
+            const risks = [];
+            const opportunities = [];
+            
+            // Assess risks based on project data
+            if (project.budget > 200000) {
+                risks.push({ level: 'medium', text: 'High-value project requires extra scrutiny' });
+            }
+            
+            if ((project.iterations || 0) > 2) {
+                risks.push({ level: 'high', text: `Multiple iterations (${project.iterations}) may indicate scope creep` });
+            }
+            
+            if (project.agentWork && project.agentWork.confidenceLevel < 85) {
+                risks.push({ level: 'medium', text: `AI confidence below 85% (${project.agentWork.confidenceLevel}%)` });
+            }
+            
+            // Assess opportunities
+            if (project.agentWork && project.agentWork.source === 'ENHANCED_AI_POWERED') {
+                opportunities.push('Enhanced AI capabilities demonstrate premium service value');
+            }
+            
+            if (project.agentWork && project.agentWork.confidenceLevel > 90) {
+                opportunities.push('High AI confidence suggests strong deliverable quality');
+            }
+            
+            const estimatedQuote = calculateEstimatedQuote(project);
+            const margin = ((estimatedQuote - (project.currentCost || 0)) / estimatedQuote * 100);
+            if (margin > 60) {
+                opportunities.push(`Healthy margin of ${margin.toFixed(1)}% allows for competitive pricing`);
+            }
+            
+            return `
+                <!-- Risk Assessment & Recommendations -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-red-50 rounded-2xl border border-red-200">
+                        <h4 class="text-lg font-semibold text-red-800 mb-4">⚠️ Risk Assessment</h4>
+                        ${risks.length > 0 ? risks.map(risk => `
+                            <div class="flex items-start space-x-3 mb-3">
+                                <div class="w-2 h-2 rounded-full mt-2 ${risk.level === 'high' ? 'bg-red-500' : 'bg-yellow-500'}"></div>
+                                <div class="text-sm text-red-700">${risk.text}</div>
+                            </div>
+                        `).join('') : '<p class="text-sm text-red-600">No significant risks identified</p>'}
+                    </div>
+                    
+                    <div class="p-6 bg-green-50 rounded-2xl border border-green-200">
+                        <h4 class="text-lg font-semibold text-green-800 mb-4">💡 Opportunities</h4>
+                        ${opportunities.length > 0 ? opportunities.map(opp => `
+                            <div class="flex items-start space-x-3 mb-3">
+                                <div class="w-2 h-2 rounded-full mt-2 bg-green-500"></div>
+                                <div class="text-sm text-green-700">${opp}</div>
+                            </div>
+                        `).join('') : '<p class="text-sm text-green-600">Standard opportunity profile</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            
+            if (diffHours < 1) return 'Less than 1 hour ago';
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            
+            const diffDays = Math.floor(diffHours / 24);
+            return `${diffDays} days ago`;
+        }
+
+        function updateCoeCountBadge() {
+            const badge = document.getElementById('coeCountBadge');
+            const count = coeReviewProjects.length;
+            badge.textContent = count > 0 ? `${count} Pending` : 'Final Review';
+        }
+
+        async function openCoeReviewModal(projectId) {
+            currentCoeProject = projectId;
+            
+            try {
+                const response = await fetch(`/api/projects/${projectId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    populateCoeReviewModal(result.project);
+                    document.getElementById('coeReviewModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading project details:', error);
+            }
+        }
+
+        function populateCoeReviewModal(project) {
+            document.getElementById('modalProjectTitle').textContent = `CoE Review: ${project.projectName}`;
+            
+            // Populate project summary
+            document.getElementById('projectSummary').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div><strong>Client:</strong> ${project.clientName}</div>
+                    <div><strong>Budget:</strong> $${project.budget.toLocaleString()}</div>
+                    <div><strong>Timeline:</strong> ${project.timeline}</div>
+                    <div><strong>Status:</strong> ${project.status}</div>
+                    <div><strong>Iterations:</strong> ${project.iterations || 0}</div>
+                    <div><strong>Priority:</strong> ${getCoePriority(project).toUpperCase()}</div>
+                </div>
+                <div class="mt-4">
+                    <strong>Brief:</strong>
+                    <p class="mt-2 p-3 bg-white rounded-2xl border border-win11-border">${project.brief}</p>
+                </div>
+            `;
+            
+            // Populate comprehensive workflow analysis
+            document.getElementById('workflowSummary').innerHTML = generateComprehensiveWorkflowAnalysis(project);
+
+            // Populate quote preview
+            const estimatedQuote = calculateEstimatedQuote(project);
+            const complexityMultiplier = project.budget > 100000 ? 1.5 : 1.3;
+            const iterationPenalty = calculateIterationPenalty(project.iterations || 0);
+
+            document.getElementById('quotePreview').innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex justify-between p-3 bg-white rounded-2xl border border-win11-border">
+                        <span class="text-win11-text-secondary">Base Agent Work:</span>
+                        <span class="font-medium">$${(project.currentCost || 0).toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between p-3 bg-white rounded-2xl border border-win11-border">
+                        <span class="text-win11-text-secondary">Complexity Multiplier (${complexityMultiplier}x):</span>
+                        <span class="font-medium">$${((project.currentCost || 0) * (complexityMultiplier - 1)).toLocaleString()}</span>
+                    </div>
+                    ${iterationPenalty > 0 ? `
+                        <div class="flex justify-between p-3 bg-white rounded-2xl border border-win11-border">
+                            <span class="text-win11-text-secondary">Iteration Penalty:</span>
+                            <span class="font-medium">$${iterationPenalty.toLocaleString()}</span>
+                        </div>
+                    ` : ''}
+                    <div class="flex justify-between p-3 bg-green-50 rounded-2xl border border-green-200">
+                        <span class="font-bold text-win11-text">Total Estimated Quote:</span>
+                        <span class="font-bold text-green-600">$${estimatedQuote.toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between p-3 bg-blue-50 rounded-2xl border border-blue-200">
+                        <span class="text-win11-text-secondary">Estimated Margin:</span>
+                        <span class="font-medium text-blue-600">${((estimatedQuote - (project.currentCost || 0)) / estimatedQuote * 100).toFixed(1)}%</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-4 bg-gray-50 rounded-2xl">
+                    <h6 class="font-semibold text-win11-text mb-2">Quote includes:</h6>
+                    <ul class="text-sm text-win11-text-secondary space-y-1">
+                        <li>• Complete strategic analysis and framework</li>
+                        <li>• Market research and competitive analysis</li>
+                        <li>• Creative concept development</li>
+                        <li>• Project timeline and resource allocation</li>
+                        <li>• Human quality assurance review</li>
+                        <li>• CoE final approval and oversight</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function closeCoeReviewModal() {
+            document.getElementById('coeReviewModal').style.display = 'none';
+            document.getElementById('coeChangeForm').classList.add('hidden');
+            document.getElementById('escalationForm').classList.add('hidden');
+            currentCoeProject = null;
+            resetCoeForm();
+        }
+
+        function resetCoeForm() {
+            document.getElementById('priceAdjustment').value = '1.0';
+            document.getElementById('deliveryAdjustment').value = 'standard';
+            document.getElementById('scopeAdjustments').value = '';
+            document.getElementById('clientNotes').value = '';
+            document.getElementById('coeChangeFeedback').value = '';
+            document.getElementById('escalationReason').value = '';
+            document.getElementById('escalationNotes').value = '';
+        }
+
+        async function approveAndSendQuote() {
+            if (!currentCoeProject) return;
+
+            // Get CoE adjustments
+            const priceAdjustment = parseFloat(document.getElementById('priceAdjustment').value);
+            const deliveryAdjustment = document.getElementById('deliveryAdjustment').value;
+            const scopeAdjustments = document.getElementById('scopeAdjustments').value;
+            const clientNotes = document.getElementById('clientNotes').value;
+
+            const quoteAdjustments = {
+                priceMultiplier: priceAdjustment,
+                deliveryOption: deliveryAdjustment,
+                scopeChanges: scopeAdjustments,
+                notes: clientNotes
+            };
+
+            try {
+                const response = await fetch(`/api/projects/${currentCoeProject}/coe-review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        decision: 'approve',
+                        feedback: 'CoE approved for client delivery',
+                        quoteAdjustments: quoteAdjustments
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showSuccessMessage('Quote approved and sent to client!');
+                    closeCoeReviewModal();
+                    loadCoeReviewQueue();
+                    loadCoeStats();
+                }
+            } catch (error) {
+                console.error('Error approving quote:', error);
+                alert('Error approving quote. Please try again.');
+            }
+        }
+
+        async function quickApproveQuote(projectId) {
+            try {
+                const response = await fetch(`/api/projects/${projectId}/coe-review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        decision: 'approve',
+                        feedback: 'Quick approved by CoE',
+                        quoteAdjustments: {
+                            priceMultiplier: 1.0,
+                            deliveryOption: 'standard',
+                            scopeChanges: '',
+                            notes: ''
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showSuccessMessage('Quote approved and sent to client!');
+                    loadCoeReviewQueue();
+                    loadCoeStats();
+                }
+            } catch (error) {
+                console.error('Error approving quote:', error);
+                alert('Error approving quote. Please try again.');
+            }
+        }
+
+        function requestChanges() {
+            document.getElementById('coeChangeForm').classList.remove('hidden');
+            document.getElementById('escalationForm').classList.add('hidden');
+        }
+
+        function escalateToSeniorCoe() {
+            document.getElementById('escalationForm').classList.remove('hidden');
+            document.getElementById('coeChangeForm').classList.add('hidden');
+        }
+
+        function cancelCoeChanges() {
+            document.getElementById('coeChangeForm').classList.add('hidden');
+            document.getElementById('coeChangeFeedback').value = '';
+        }
+
+        function cancelEscalation() {
+            document.getElementById('escalationForm').classList.add('hidden');
+            document.getElementById('escalationReason').value = '';
+            document.getElementById('escalationNotes').value = '';
+        }
+
+        async function submitCoeReview(decision) {
+            let feedback = '';
+            
+            if (decision === 'request_changes') {
+                feedback = document.getElementById('coeChangeFeedback').value;
+                if (!feedback.trim()) {
+                    alert('Please provide details about the required changes');
+                    return;
+                }
+            } else if (decision === 'escalate') {
+                const reason = document.getElementById('escalationReason').value;
+                const notes = document.getElementById('escalationNotes').value;
+                
+                if (!reason) {
+                    alert('Please select an escalation reason');
+                    return;
+                }
+                
+                feedback = `Escalation Reason: ${reason}\nNotes: ${notes}`;
+            }
+
+            try {
+                const response = await fetch(`/api/projects/${currentCoeProject}/coe-review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        decision: decision,
+                        feedback: feedback
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    const message = decision === 'request_changes' ? 
+                        'Change request sent back to human reviewer' : 
+                        'Project escalated to Senior CoE';
+                    showSuccessMessage(message);
+                    closeCoeReviewModal();
+                    loadCoeReviewQueue();
+                    loadCoeStats();
+                }
+            } catch (error) {
+                console.error('Error submitting CoE review:', error);
+                alert('Error submitting review. Please try again.');
+            }
+        }
+
+        function refreshCoeQueue() {
+            loadCoeReviewQueue();
+            loadCoeStats();
+        }
+
+        function showSuccessMessage(message) {
+            // Simple success notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-3xl shadow-win11 z-50';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            loadCoeReviewQueue();
+            loadCoeStats();
+        }, 30000);
+    </script>
+</body>
+</html>

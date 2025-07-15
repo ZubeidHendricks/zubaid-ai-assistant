@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZUBAID - AI Assistant Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'segoe': ['Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        'win11': {
+                            'bg': '#f3f3f3',
+                            'card': '#ffffff',
+                            'sidebar': '#f9f9f9',
+                            'accent': '#0067c0',
+                            'accent-hover': '#106ebe',
+                            'border': '#e5e5e5',
+                            'text': '#323130',
+                            'text-secondary': '#605e5c',
+                            'success': '#107c10',
+                            'warning': '#ff8c00',
+                            'error': '#d13438'
+                        }
+                    },
+                    backdropBlur: {
+                        'win11': '30px'
+                    },
+                    boxShadow: {
+                        'win11': '0 8px 16px rgba(0,0,0,0.1)',
+                        'win11-hover': '0 16px 32px rgba(0,0,0,0.15)',
+                        'win11-card': '0 2px 8px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .glass-effect {
+            backdrop-filter: blur(30px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .win11-button {
+            transition: all 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+        }
+        .win11-button:hover {
+            transform: translateY(-1px);
+        }
+        .win11-card {
+            transition: all 0.3s cubic-bezier(0.3, 0, 0.5, 1);
+        }
+        .win11-card:hover {
+            transform: translateY(-2px);
+        }
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-slide-up {
+            animation: slideInUp 0.4s ease-out;
+        }
+        .scroll-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-win11-bg font-segoe">
+    <!-- Top Navigation Bar -->
+    <nav class="glass-effect border-b border-win11-border sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-win11-accent to-blue-600 rounded-3xl flex items-center justify-center shadow-win11-card">
+                        <span class="text-white font-bold text-lg">🌟</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-semibold text-win11-text">ZUBAID - Your AI Assistant</h1>
+                        <p class="text-sm text-win11-text-secondary">Enhanced Multi-AI Dashboard</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        Submit Brief
+                    </a>
+                    <a href="/dashboard-win11" class="px-4 py-2 text-sm font-medium text-white bg-win11-accent hover:bg-win11-accent-hover rounded-3xl transition-all duration-200">
+                        Dashboard
+                    </a>
+                    <a href="/agents-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        AI Agents
+                    </a>
+                    <a href="/human-review-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        Human Review
+                    </a>
+                    <a href="/coe-review-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        CoE Review
+                    </a>
+                </div>
+
+                <!-- Status Indicator -->
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-2 px-3 py-1 bg-green-50 border border-green-200 rounded-3xl">
+                        <div class="w-2 h-2 bg-win11-success rounded-full animate-pulse"></div>
+                        <span class="text-xs font-medium text-win11-success">System Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11 animate-slide-up">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Total Projects</p>
+                        <p class="text-2xl font-bold text-win11-text" id="totalProjects">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-win11-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11 animate-slide-up" style="animation-delay: 0.1s">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">In Progress</p>
+                        <p class="text-2xl font-bold text-win11-text" id="activeProjects">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-win11-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11 animate-slide-up" style="animation-delay: 0.2s">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Completed</p>
+                        <p class="text-2xl font-bold text-win11-text" id="completedProjects">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-win11-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11 animate-slide-up" style="animation-delay: 0.3s">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Total Revenue</p>
+                        <p class="text-2xl font-bold text-win11-text" id="totalRevenue">$0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Provider Status -->
+        <div class="mb-8">
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-semibold text-win11-text">Enhanced Multi-AI System Status</h2>
+                    <div class="flex items-center space-x-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-3xl">
+                        <div class="w-2 h-2 bg-win11-accent rounded-full animate-pulse"></div>
+                        <span class="text-xs font-medium text-win11-accent">MULTI_AI_OPTIMIZED</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Google AI -->
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-4 border border-blue-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-500 rounded-3xl flex items-center justify-center">
+                                <span class="text-white text-lg">⚡</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-blue-900">Google Gemini</p>
+                                <p class="text-xs text-blue-700">Coordination & Strategy</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="text-xs text-blue-600">Active</span>
+                            <div class="w-2 h-2 bg-win11-success rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <!-- OpenAI -->
+                    <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-3xl p-4 border border-emerald-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-emerald-500 rounded-3xl flex items-center justify-center">
+                                <span class="text-white text-lg">🎨</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-emerald-900">OpenAI GPT-4</p>
+                                <p class="text-xs text-emerald-700">Creative Excellence</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="text-xs text-emerald-600">Fallback Mode</span>
+                            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <!-- Anthropic -->
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl p-4 border border-purple-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-purple-500 rounded-3xl flex items-center justify-center">
+                                <span class="text-white text-lg">🧠</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-purple-900">Anthropic Claude</p>
+                                <p class="text-xs text-purple-700">Advanced Reasoning</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="text-xs text-purple-600">Credits Low</span>
+                            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                        </div>
+                    </div>
+
+                    <!-- DALL-E -->
+                    <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-3xl p-4 border border-amber-200">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-amber-500 rounded-3xl flex items-center justify-center">
+                                <span class="text-white text-lg">🖼️</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-amber-900">DALL-E 3</p>
+                                <p class="text-xs text-amber-700">Image Generation</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <span class="text-xs text-amber-600">Limited Access</span>
+                            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Projects List -->
+            <div class="lg:col-span-2">
+                <div class="win11-card bg-win11-card rounded-3xl shadow-win11-card hover:shadow-win11">
+                    <div class="p-6 border-b border-win11-border">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-win11-text">Active Projects</h2>
+                            <button class="win11-button px-4 py-2 bg-win11-accent hover:bg-win11-accent-hover text-white rounded-3xl text-sm font-medium shadow-win11-card">
+                                <a href="/" class="text-white no-underline">+ New Project</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div id="projectsGrid" class="space-y-4">
+                            <!-- Projects will be loaded here -->
+                            <div class="text-center py-12">
+                                <div class="w-16 h-16 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                    </svg>
+                                </div>
+                                <p class="text-win11-text-secondary">No projects yet. <a href="/" class="text-win11-accent hover:underline">Submit your first brief</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="lg:col-span-1">
+                <div class="win11-card bg-win11-card rounded-3xl shadow-win11-card hover:shadow-win11">
+                    <div class="p-6 border-b border-win11-border">
+                        <h2 class="text-lg font-semibold text-win11-text">Real-Time Activity</h2>
+                    </div>
+                    <div class="p-6">
+                        <div id="activityFeed" class="space-y-4 max-h-96 overflow-y-auto scroll-hide">
+                            <!-- Activity items will be added here -->
+                            <div class="text-center py-8">
+                                <div class="w-12 h-12 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-3">
+                                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-win11-text-secondary">No recent activity</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Project Details Modal -->
+    <div id="projectModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-win11-card rounded-3xl shadow-win11 max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between p-6 border-b border-win11-border">
+                <h3 id="modalProjectTitle" class="text-lg font-semibold text-win11-text">Project Details</h3>
+                <button onclick="closeProjectModal()" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-3xl flex items-center justify-center transition-colors">
+                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[calc(90vh-120px)] scroll-hide">
+                <div id="projectDetails">
+                    <!-- Project details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let projects = [];
+
+        // Load initial data
+        loadProjects();
+        loadStats();
+
+        async function loadProjects() {
+            try {
+                const response = await fetch('/api/projects');
+                const result = await response.json();
+                
+                if (result.success) {
+                    projects = result.projects;
+                    renderProjects();
+                }
+            } catch (error) {
+                console.error('Error loading projects:', error);
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/projects');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const projects = result.projects;
+                    const active = projects.filter(p => p.status !== 'quote_sent').length;
+                    const completed = projects.filter(p => p.status === 'quote_sent').length;
+                    const revenue = projects.reduce((sum, p) => {
+                        if (p.finalQuote) {
+                            return sum + p.finalQuote.totalCost;
+                        }
+                        return sum + (p.currentCost || 0);
+                    }, 0);
+
+                    document.getElementById('totalProjects').textContent = projects.length;
+                    document.getElementById('activeProjects').textContent = active;
+                    document.getElementById('completedProjects').textContent = completed;
+                    document.getElementById('totalRevenue').textContent = `$${Math.round(revenue).toLocaleString()}`;
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            
+            if (projects.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <p class="text-win11-text-secondary">No projects yet. <a href="/" class="text-win11-accent hover:underline">Submit your first brief</a></p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = projects.map(project => createProjectCardHTML(project)).join('');
+        }
+
+        function createProjectCardHTML(project) {
+            const needsAction = getNeedsAction(project);
+            const statusColor = getStatusColor(project.status);
+            const progressPercentage = getProgressPercentage(project.status);
+            
+            return `
+                <div class="win11-card bg-white rounded-3xl p-6 border border-win11-border hover:shadow-win11 transition-all duration-300 ${project.agentWork?.source === 'ENHANCED_AI_POWERED' ? 'ring-2 ring-blue-100' : ''}">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-win11-text mb-1">${project.projectName}</h3>
+                            <p class="text-sm text-win11-text-secondary">${project.clientName}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 text-xs font-medium ${statusColor} rounded-3xl">
+                                ${formatStatus(project.status)}
+                            </span>
+                            ${project.agentWork?.source === 'ENHANCED_AI_POWERED' ? 
+                                '<div class="w-2 h-2 bg-blue-500 rounded-full"></div>' : 
+                                '<div class="w-2 h-2 bg-gray-300 rounded-full"></div>'
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 mb-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Budget:</span>
+                            <span class="font-medium text-win11-text">$${project.budget.toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Current Cost:</span>
+                            <span class="font-medium text-win11-text">$${(project.currentCost || 0).toLocaleString()}</span>
+                        </div>
+                        ${project.agentWork ? `
+                            <div class="flex justify-between text-sm">
+                                <span class="text-win11-text-secondary">Confidence:</span>
+                                <span class="font-medium text-win11-text">${project.agentWork.confidenceLevel}%</span>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-win11-text-secondary">Progress</span>
+                            <span class="text-win11-text-secondary">${progressPercentage}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-win11-accent rounded-full h-2 transition-all duration-300" style="width: ${progressPercentage}%"></div>
+                        </div>
+                    </div>
+
+                    ${needsAction.type ? `
+                        <div class="flex items-center space-x-2 p-3 bg-orange-50 border border-orange-200 rounded-3xl mb-4">
+                            <span class="text-lg">${needsAction.icon}</span>
+                            <span class="text-sm font-medium text-orange-800">${needsAction.message}</span>
+                        </div>
+                    ` : ''}
+
+                    <div class="flex space-x-2">
+                        <button onclick="viewProjectDetails('${project.id}')" class="win11-button flex-1 px-4 py-2 bg-win11-accent hover:bg-win11-accent-hover text-white rounded-3xl text-sm font-medium transition-all duration-200">
+                            View Details
+                        </button>
+                        ${getActionButtonHTML(project)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getNeedsAction(project) {
+            if (project.status === 'human_review') {
+                return { type: 'human', icon: '👤', message: 'Needs Human Review' };
+            }
+            if (project.status === 'coe_review') {
+                return { type: 'coe', icon: '✅', message: 'Needs CoE Approval' };
+            }
+            if (project.status === 'agents_working') {
+                return { type: 'working', icon: '🤖', message: 'AI Agents Working' };
+            }
+            return { type: null };
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'brief_submitted': 'bg-blue-100 text-blue-800',
+                'agents_working': 'bg-yellow-100 text-yellow-800',
+                'agent_work_complete': 'bg-indigo-100 text-indigo-800',
+                'human_review': 'bg-orange-100 text-orange-800',
+                'human_approved': 'bg-purple-100 text-purple-800',
+                'coe_review': 'bg-pink-100 text-pink-800',
+                'coe_approved': 'bg-emerald-100 text-emerald-800',
+                'quote_sent': 'bg-green-100 text-green-800'
+            };
+            return colors[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getProgressPercentage(status) {
+            const progress = {
+                'brief_submitted': 10,
+                'agents_working': 25,
+                'agent_work_complete': 50,
+                'human_review': 65,
+                'human_approved': 75,
+                'coe_review': 85,
+                'coe_approved': 95,
+                'quote_sent': 100
+            };
+            return progress[status] || 0;
+        }
+
+        function formatStatus(status) {
+            const statusMap = {
+                'brief_submitted': 'Brief Submitted',
+                'agents_working': 'AI Working',
+                'agent_work_complete': 'AI Complete',
+                'human_review': 'Human Review',
+                'human_approved': 'Human Approved',
+                'coe_review': 'CoE Review',
+                'coe_approved': 'CoE Approved',
+                'quote_sent': 'Quote Sent'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getActionButtonHTML(project) {
+            if (project.status === 'human_review') {
+                return `<a href="/human-review" class="win11-button flex-1 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-3xl text-sm font-medium transition-all duration-200 text-center">Review</a>`;
+            }
+            if (project.status === 'coe_review') {
+                return `<a href="/coe-review" class="win11-button flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-3xl text-sm font-medium transition-all duration-200 text-center">CoE Review</a>`;
+            }
+            return '';
+        }
+
+        function addActivityItem(activity) {
+            const feed = document.getElementById('activityFeed');
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            const item = document.createElement('div');
+            item.className = 'flex items-start space-x-3 p-3 bg-gray-50 rounded-3xl animate-slide-up';
+            item.innerHTML = `
+                <div class="w-8 h-8 bg-win11-accent rounded-3xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-xs">🤖</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-win11-text">${activity.agentName || 'System'}</p>
+                    <p class="text-xs text-win11-text-secondary truncate">${activity.activity || activity.message}</p>
+                    <p class="text-xs text-win11-text-secondary mt-1">${time}</p>
+                </div>
+                ${activity.confidence ? `<div class="text-xs text-win11-accent font-medium">${activity.confidence}%</div>` : ''}
+            `;
+            
+            // Remove empty state and add to top
+            const emptyState = feed.querySelector('.text-center');
+            if (emptyState) {
+                emptyState.remove();
+            }
+            
+            feed.insertBefore(item, feed.firstChild);
+            
+            // Keep only last 10 items
+            while (feed.children.length > 10) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        async function viewProjectDetails(projectId) {
+            try {
+                const response = await fetch(`/api/projects/${projectId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    populateProjectModal(result.project);
+                    document.getElementById('projectModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading project details:', error);
+            }
+        }
+
+        function populateProjectModal(project) {
+            document.getElementById('modalProjectTitle').textContent = `${project.projectName} - Details`;
+            
+            const detailsContainer = document.getElementById('projectDetails');
+            detailsContainer.innerHTML = `
+                <div class="space-y-6">
+                    <!-- Project Overview -->
+                    <div class="bg-gray-50 rounded-3xl p-6">
+                        <h4 class="text-lg font-semibold text-win11-text mb-4">Project Overview</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><strong>Client:</strong> ${project.clientName}</div>
+                            <div><strong>Budget:</strong> $${project.budget.toLocaleString()}</div>
+                            <div><strong>Timeline:</strong> ${project.timeline}</div>
+                            <div><strong>Status:</strong> ${formatStatus(project.status)}</div>
+                            <div><strong>Created:</strong> ${new Date(project.createdAt).toLocaleDateString()}</div>
+                            <div><strong>Current Cost:</strong> $${(project.currentCost || 0).toLocaleString()}</div>
+                        </div>
+                        <div class="mt-4">
+                            <strong>Project Brief:</strong>
+                            <p class="mt-2 p-4 bg-white rounded-3xl border border-win11-border">${project.brief}</p>
+                        </div>
+                    </div>
+
+                    ${project.agentWork ? generateAgentWorkHTML(project.agentWork) : ''}
+                </div>
+            `;
+        }
+
+        function generateAgentWorkHTML(agentWork) {
+            return `
+                <div class="bg-blue-50 rounded-3xl p-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">
+                        ${agentWork.source === 'ENHANCED_AI_POWERED' ? '🚀 Enhanced Multi-AI' : '🤖 Google AI'} Workflow Results
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white rounded-3xl p-4">
+                            <p class="text-sm text-win11-text-secondary">Overall Confidence</p>
+                            <p class="text-2xl font-bold text-win11-text">${agentWork.confidenceLevel}%</p>
+                        </div>
+                        <div class="bg-white rounded-3xl p-4">
+                            <p class="text-sm text-win11-text-secondary">Total Cost</p>
+                            <p class="text-2xl font-bold text-win11-text">$${agentWork.totalCost}</p>
+                        </div>
+                        <div class="bg-white rounded-3xl p-4">
+                            <p class="text-sm text-win11-text-secondary">Completed</p>
+                            <p class="text-lg font-bold text-win11-text">${new Date(agentWork.completedAt).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    
+                    ${agentWork.source === 'ENHANCED_AI_POWERED' ? `
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-6 text-white mb-6">
+                            <h5 class="text-lg font-semibold mb-3">🎯 Complete Brand Development Summary</h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>• <strong>Total Steps:</strong> ${agentWork.phaseSummary?.totalSteps || '13'}</div>
+                                <div>• <strong>Agents Involved:</strong> ${agentWork.phaseSummary?.agentsInvolved || '7'}</div>
+                                <div>• <strong>Strategic Phase:</strong> ${agentWork.phaseSummary?.strategicPhase || 'Completed'}</div>
+                                <div>• <strong>Creative Phase:</strong> ${agentWork.phaseSummary?.creativePhase || 'Completed'}</div>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <!-- Detailed workflow steps would go here -->
+                    <div class="text-sm text-win11-text-secondary">
+                        <p>Detailed workflow visualization available in the complete project report.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        // Socket.io event listeners
+        socket.on('projectUpdate', (data) => {
+            console.log('Project update:', data);
+            addActivityItem({
+                message: `Project ${data.projectId.substring(0, 8)}... - ${data.message}`,
+                agentName: 'System'
+            });
+            
+            loadProjects();
+            loadStats();
+        });
+
+        socket.on('agentActivity', (data) => {
+            console.log('Agent activity:', data);
+            addActivityItem(data);
+        });
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            loadProjects();
+            loadStats();
+        }, 30000);
+
+        // Add some sample activities on load
+        setTimeout(() => {
+            addActivityItem({
+                agentName: 'Enhanced AI System',
+                activity: 'Multi-AI workflow engine initialized',
+                confidence: 98
+            });
+        }, 1000);
+
+        setTimeout(() => {
+            addActivityItem({
+                agentName: 'Google Gemini',
+                activity: 'Strategic coordination active',
+                confidence: 95
+            });
+        }, 2000);
+    </script>
+</body>
+</html>

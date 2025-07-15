@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Review - zubaid AI Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'segoe': ['Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        'win11': {
+                            'bg': '#f3f3f3',
+                            'card': '#ffffff',
+                            'sidebar': '#f9f9f9',
+                            'accent': '#0067c0',
+                            'accent-hover': '#106ebe',
+                            'border': '#e5e5e5',
+                            'text': '#323130',
+                            'text-secondary': '#605e5c',
+                            'success': '#107c10',
+                            'warning': '#ff8c00',
+                            'error': '#d13438'
+                        }
+                    },
+                    boxShadow: {
+                        'win11': '0 8px 16px rgba(0,0,0,0.1)',
+                        'win11-hover': '0 16px 32px rgba(0,0,0,0.15)',
+                        'win11-card': '0 2px 8px rgba(0,0,0,0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .glass-effect {
+            backdrop-filter: blur(30px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .win11-button {
+            transition: all 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+        }
+        .win11-button:hover {
+            transform: translateY(-1px);
+        }
+        .win11-card {
+            transition: all 0.3s cubic-bezier(0.3, 0, 0.5, 1);
+        }
+        .win11-card:hover {
+            transform: translateY(-2px);
+        }
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-slide-up {
+            animation: slideInUp 0.4s ease-out;
+        }
+        .scroll-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-win11-bg font-segoe">
+    <!-- Top Navigation Bar -->
+    <nav class="glass-effect border-b border-win11-border sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo and Title -->
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-win11-accent to-blue-600 rounded-3xl flex items-center justify-center shadow-win11-card">
+                        <span class="text-white font-bold text-lg">🌟</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-semibold text-win11-text">zubaid AI Agency</h1>
+                        <p class="text-sm text-win11-text-secondary">Human Review Center</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/index-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        Submit Brief
+                    </a>
+                    <a href="/dashboard-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        Dashboard
+                    </a>
+                    <a href="/agents-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        AI Agents
+                    </a>
+                    <a href="/human-review-win11" class="px-4 py-2 text-sm font-medium text-white bg-win11-accent hover:bg-win11-accent-hover rounded-3xl transition-all duration-200">
+                        Human Review
+                    </a>
+                    <a href="/coe-review-win11" class="px-4 py-2 text-sm font-medium text-win11-text-secondary hover:text-win11-text hover:bg-white/50 rounded-3xl transition-all duration-200">
+                        CoE Review
+                    </a>
+                </div>
+
+                <!-- Status Indicator -->
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-2 px-3 py-1 bg-orange-50 border border-orange-200 rounded-3xl">
+                        <div class="w-2 h-2 bg-win11-warning rounded-full animate-pulse"></div>
+                        <span class="text-xs font-medium text-win11-warning" id="reviewCountBadge">Review Queue</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-16 bg-gradient-to-br from-orange-50 via-white to-red-50">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="animate-slide-up">
+                <h1 class="text-4xl md:text-5xl font-bold text-win11-text mb-6">
+                    Human 
+                    <span class="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                        Review Center
+                    </span>
+                </h1>
+                <p class="text-xl text-win11-text-secondary mb-8 max-w-3xl mx-auto">
+                    Review and approve AI-generated work before final CoE approval. Ensure quality and alignment with project requirements.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Pending Reviews</p>
+                        <p class="text-2xl font-bold text-orange-600" id="pendingReviews">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Approved Today</p>
+                        <p class="text-2xl font-bold text-green-600" id="approvedToday">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Revisions Requested</p>
+                        <p class="text-2xl font-bold text-blue-600" id="revisionsRequested">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="win11-card bg-win11-card rounded-3xl p-6 shadow-win11-card hover:shadow-win11">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-win11-text-secondary">Average Review Time</p>
+                        <p class="text-2xl font-bold text-purple-600" id="avgReviewTime">--</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-50 rounded-3xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Queue -->
+        <div class="win11-card bg-win11-card rounded-3xl shadow-win11-card hover:shadow-win11">
+            <div class="p-6 border-b border-win11-border">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-win11-text">Projects Requiring Human Review</h2>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="refreshReviewQueue()" class="win11-button px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-3xl text-sm font-medium transition-all duration-200">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="humanReviewQueue" class="space-y-4">
+                    <!-- Review items will be loaded here -->
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="text-win11-text-secondary">No projects pending human review</p>
+                        <p class="text-sm text-win11-text-secondary mt-2">All projects are up to date!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Human Review Modal -->
+    <div id="humanReviewModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-win11-card rounded-3xl shadow-win11 max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between p-6 border-b border-win11-border">
+                <h3 id="modalProjectTitle" class="text-lg font-semibold text-win11-text">Human Review</h3>
+                <button onclick="closeHumanReviewModal()" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-3xl flex items-center justify-center transition-colors">
+                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto max-h-[calc(90vh-180px)] scroll-hide">
+                <!-- Project Summary -->
+                <div class="bg-blue-50 rounded-3xl p-6 mb-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">Project Summary</h4>
+                    <div id="projectSummary" class="space-y-3">
+                        <!-- Project details will be populated here -->
+                    </div>
+                </div>
+
+                <!-- AI Agent Work -->
+                <div class="bg-gray-50 rounded-3xl p-6 mb-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">AI Agent Work Results</h4>
+                    <div id="agentWorkResults" class="space-y-4">
+                        <!-- Agent work will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Review Decision -->
+                <div class="bg-white border-2 border-win11-border rounded-3xl p-6">
+                    <h4 class="text-lg font-semibold text-win11-text mb-4">Review Decision</h4>
+                    
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <button onclick="approveProject()" class="win11-button w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-3xl font-medium transition-all duration-200">
+                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Approve
+                            </button>
+                            
+                            <button onclick="requestRevisions()" class="win11-button w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-3xl font-medium transition-all duration-200">
+                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                Request Revisions
+                            </button>
+                            
+                            <button onclick="escalateToCoE()" class="win11-button w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-3xl font-medium transition-all duration-200">
+                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                Escalate to CoE
+                            </button>
+                        </div>
+
+                        <div id="revisionForm" class="hidden mt-4">
+                            <label for="revisionFeedback" class="block text-sm font-semibold text-win11-text mb-2">
+                                Revision Feedback:
+                            </label>
+                            <textarea id="revisionFeedback" rows="4" 
+                                     class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200 resize-none"
+                                     placeholder="Please provide specific feedback for the AI agents..."></textarea>
+                            <div class="flex space-x-3 mt-4">
+                                <button onclick="submitRevisionRequest()" class="win11-button flex-1 bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Submit Revision Request
+                                </button>
+                                <button onclick="cancelRevisionRequest()" class="win11-button px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="escalationForm" class="hidden mt-4">
+                            <label for="escalationReason" class="block text-sm font-semibold text-win11-text mb-2">
+                                Escalation Reason:
+                            </label>
+                            <textarea id="escalationReason" rows="3" 
+                                     class="w-full px-4 py-3 border border-win11-border rounded-3xl focus:outline-none focus:ring-2 focus:ring-win11-accent focus:border-transparent transition-all duration-200 resize-none"
+                                     placeholder="Please explain why this requires CoE attention..."></textarea>
+                            <div class="flex space-x-3 mt-4">
+                                <button onclick="submitEscalation()" class="win11-button flex-1 bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Submit Escalation
+                                </button>
+                                <button onclick="cancelEscalation()" class="win11-button px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-3xl font-medium transition-all duration-200">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentProjectId = null;
+        let humanReviewProjects = [];
+
+        // Load initial data
+        loadHumanReviewQueue();
+        loadReviewStats();
+
+        async function loadHumanReviewQueue() {
+            try {
+                const response = await fetch('/api/human-review/queue');
+                const result = await response.json();
+                
+                if (result.success) {
+                    humanReviewProjects = result.projects;
+                    renderHumanReviewQueue();
+                    updateReviewCountBadge();
+                }
+            } catch (error) {
+                console.error('Error loading human review queue:', error);
+            }
+        }
+
+        async function loadReviewStats() {
+            try {
+                const response = await fetch('/api/human-review/stats');
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('pendingReviews').textContent = result.stats.pending || 0;
+                    document.getElementById('approvedToday').textContent = result.stats.approvedToday || 0;
+                    document.getElementById('revisionsRequested').textContent = result.stats.revisionsRequested || 0;
+                    document.getElementById('avgReviewTime').textContent = result.stats.avgReviewTime || '--';
+                }
+            } catch (error) {
+                console.error('Error loading review stats:', error);
+            }
+        }
+
+        function renderHumanReviewQueue() {
+            const queue = document.getElementById('humanReviewQueue');
+            
+            if (humanReviewProjects.length === 0) {
+                queue.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="w-16 h-16 bg-gray-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="text-win11-text-secondary">No projects pending human review</p>
+                        <p class="text-sm text-win11-text-secondary mt-2">All projects are up to date!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            queue.innerHTML = humanReviewProjects.map(project => createReviewCardHTML(project)).join('');
+        }
+
+        function createReviewCardHTML(project) {
+            const urgencyClass = getUrgencyClass(project.timeline);
+            const timeAgo = getTimeAgo(project.submittedAt);
+            
+            return `
+                <div class="win11-card bg-white rounded-3xl p-6 border-l-4 ${urgencyClass.border} hover:shadow-win11 transition-all duration-300">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-win11-text mb-1">${project.projectName}</h3>
+                            <p class="text-sm text-win11-text-secondary mb-2">${project.clientName}</p>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-xs text-win11-text-secondary">Submitted: ${timeAgo}</span>
+                                <span class="px-2 py-1 ${urgencyClass.bg} ${urgencyClass.text} rounded-2xl text-xs font-medium">
+                                    ${getUrgencyLabel(project.timeline)}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            ${project.agentWork?.source === 'ENHANCED_AI_POWERED' ? 
+                                '<div class="w-2 h-2 bg-blue-500 rounded-full" title="Enhanced Multi-AI"></div>' : 
+                                '<div class="w-2 h-2 bg-gray-300 rounded-full" title="Standard AI"></div>'
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Budget:</span>
+                            <span class="font-medium text-win11-text">$${project.budget.toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">AI Confidence:</span>
+                            <span class="font-medium text-win11-text">${project.agentWork?.confidenceLevel || 0}%</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-win11-text-secondary">Cost:</span>
+                            <span class="font-medium text-win11-text">$${project.agentWork?.totalCost || 0}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <button onclick="openHumanReviewModal('${project.id}')" class="win11-button flex-1 px-4 py-2 bg-win11-accent hover:bg-win11-accent-hover text-white rounded-3xl text-sm font-medium transition-all duration-200">
+                            Review Project
+                        </button>
+                        <button onclick="quickApprove('${project.id}')" class="win11-button px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-3xl text-sm font-medium transition-all duration-200">
+                            Quick Approve
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getUrgencyClass(timeline) {
+            if (timeline && timeline.includes('Rush')) {
+                return { 
+                    border: 'border-red-500', 
+                    bg: 'bg-red-100', 
+                    text: 'text-red-800' 
+                };
+            } else if (timeline && timeline.includes('Standard')) {
+                return { 
+                    border: 'border-orange-500', 
+                    bg: 'bg-orange-100', 
+                    text: 'text-orange-800' 
+                };
+            }
+            return { 
+                border: 'border-green-500', 
+                bg: 'bg-green-100', 
+                text: 'text-green-800' 
+            };
+        }
+
+        function getUrgencyLabel(timeline) {
+            if (timeline && timeline.includes('Rush')) return 'High Priority';
+            if (timeline && timeline.includes('Standard')) return 'Normal Priority';
+            return 'Low Priority';
+        }
+
+        function getTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            
+            if (diffHours < 1) return 'Less than 1 hour ago';
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            
+            const diffDays = Math.floor(diffHours / 24);
+            return `${diffDays} days ago`;
+        }
+
+        function generateHumanReviewAnalysis(project) {
+            let html = `
+                <!-- Quick Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white rounded-2xl p-4 border border-win11-border">
+                        <p class="text-sm text-win11-text-secondary">AI Confidence</p>
+                        <p class="text-xl font-bold ${project.agentWork?.confidenceLevel > 85 ? 'text-green-600' : project.agentWork?.confidenceLevel > 70 ? 'text-orange-500' : 'text-red-500'}">${project.agentWork?.confidenceLevel || 0}%</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-4 border border-win11-border">
+                        <p class="text-sm text-win11-text-secondary">Total Cost</p>
+                        <p class="text-xl font-bold text-win11-text">$${project.agentWork?.totalCost || 0}</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-4 border border-win11-border">
+                        <p class="text-sm text-win11-text-secondary">AI System</p>
+                        <p class="text-sm font-bold ${project.agentWork?.source === 'ENHANCED_AI_POWERED' ? 'text-purple-600' : 'text-blue-600'}">${project.agentWork?.source === 'ENHANCED_AI_POWERED' ? 'Enhanced Multi-AI' : 'Standard AI'}</p>
+                    </div>
+                </div>
+            `;
+
+            if (project.agentWork) {
+                html += generateAgentWorkAnalysisForHuman(project.agentWork);
+            } else {
+                html += `
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
+                        <p class="text-yellow-800">⚠️ No AI agent work available for review</p>
+                    </div>
+                `;
+            }
+
+            // Add quality assessment for human reviewer
+            html += generateQualityAssessmentForHuman(project);
+
+            return html;
+        }
+
+        function generateAgentWorkAnalysisForHuman(agentWork) {
+            const isEnhanced = agentWork.source === 'ENHANCED_AI_POWERED';
+            
+            let html = `
+                <!-- Comprehensive Editable Deliverables -->
+                <div class="space-y-6">
+                    <div class="p-6 ${isEnhanced ? 'bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200' : 'bg-gray-50'} rounded-2xl border">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-3">
+                                <h4 class="text-lg font-semibold text-win11-text">
+                                    📦 Complete Brand Deliverables Package
+                                </h4>
+                                ${isEnhanced ? '<span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">MULTI-AI POWERED</span>' : ''}
+                            </div>
+                            <button onclick="toggleEditMode()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-all duration-200">
+                                <span id="editModeToggle">✏️ Edit Mode</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Key Findings Summary -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-white p-4 rounded-xl border">
+                                <h5 class="font-semibold text-win11-text mb-3">📊 Quality Metrics</h5>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span>Overall Confidence:</span>
+                                        <span class="font-medium ${agentWork.confidenceLevel > 85 ? 'text-green-600' : agentWork.confidenceLevel > 70 ? 'text-orange-500' : 'text-red-500'}">${agentWork.confidenceLevel}%</span>
+                                    </div>
+                                    ${agentWork.analysis ? `
+                                        <div class="flex justify-between">
+                                            <span>Complexity Score:</span>
+                                            <span class="font-medium">${agentWork.analysis.result.complexityScore}/10</span>
+                                        </div>
+                                    ` : ''}
+                                    <div class="flex justify-between">
+                                        <span>Total Investment:</span>
+                                        <span class="font-medium">$${agentWork.totalCost}</span>
+                                    </div>
+                                    ${agentWork.phaseSummary ? `
+                                        <div class="flex justify-between">
+                                            <span>Agents Involved:</span>
+                                            <span class="font-medium">${agentWork.phaseSummary.agentsInvolved}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-xl border">
+                                <h5 class="font-semibold text-win11-text mb-3">🎯 Deliverables Status</h5>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="${agentWork.analysis ? 'text-green-600' : 'text-gray-400'}">${agentWork.analysis ? '✅' : '❌'}</span>
+                                        <span>Strategic Analysis</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="${agentWork.research ? 'text-green-600' : 'text-gray-400'}">${agentWork.research ? '✅' : '❌'}</span>
+                                        <span>Market Research</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="${agentWork.logoDesign ? 'text-green-600' : 'text-gray-400'}">${agentWork.logoDesign ? '✅' : '❌'}</span>
+                                        <span>Logo Design</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="${agentWork.brandVoice ? 'text-green-600' : 'text-gray-400'}">${agentWork.brandVoice ? '✅' : '❌'}</span>
+                                        <span>Brand Voice</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="${agentWork.brandGuidelines ? 'text-green-600' : 'text-gray-400'}">${agentWork.brandGuidelines ? '✅' : '❌'}</span>
+                                        <span>Brand Guidelines</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Detailed Work Breakdown -->
+                        <div class="space-y-4">
+                            <h5 class="font-semibold text-win11-text">📋 Detailed Work Breakdown</h5>
+                            
+                            <!-- Strategic Work -->
+                            ${agentWork.analysis || agentWork.research || agentWork.strategy ? `
+                                <div class="bg-white p-4 rounded-xl border border-blue-200">
+                                    <h6 class="font-medium text-blue-800 mb-3">🎯 Strategic Foundation</h6>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                        ${agentWork.analysis ? `
+                                            <div>
+                                                <strong>Brief Analysis (Alex 🎯):</strong>
+                                                <ul class="ml-4 mt-1 space-y-1">
+                                                    <li>• Complexity: ${agentWork.analysis.result.complexityScore}/10</li>
+                                                    <li>• Confidence: ${agentWork.analysis.result.confidenceLevel}%</li>
+                                                    <li>• Key objectives identified: ${agentWork.analysis.result.projectScope.primaryObjectives.length}</li>
+                                                </ul>
+                                            </div>
+                                        ` : ''}
+                                        ${agentWork.research ? `
+                                            <div>
+                                                <strong>Market Research (Riley 🔍):</strong>
+                                                <ul class="ml-4 mt-1 space-y-1">
+                                                    <li>• Target audience: ${agentWork.research.result.targetAudience.primary}</li>
+                                                    <li>• Competitors analyzed: ${agentWork.research.result.competitorAnalysis.length}</li>
+                                                    <li>• Confidence: ${agentWork.research.result.confidenceLevel}%</li>
+                                                </ul>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            <!-- Creative Work -->
+                            ${agentWork.logoDesign || agentWork.colorPalette || agentWork.brandVoice ? `
+                                <div class="bg-white p-4 rounded-xl border border-purple-200">
+                                    <h6 class="font-medium text-purple-800 mb-3">🎨 Creative Development</h6>
+                                    <div class="space-y-3 text-sm">
+                                        ${agentWork.logoDesign ? `
+                                            <div>
+                                                <strong>Logo Design (Zara 🎨):</strong>
+                                                <div class="flex items-start space-x-3 mt-2">
+                                                    ${agentWork.logoImages ? `
+                                                        <img src="${agentWork.logoImages.result.imageUrl}" alt="Generated Logo" class="w-12 h-12 object-contain border rounded bg-white">
+                                                    ` : ''}
+                                                    <div>
+                                                        <div>• Generated ${agentWork.logoDesign.result.logoConceptsGenerated} concepts</div>
+                                                        <div>• Primary: ${agentWork.logoDesign.result.primaryConcept.name}</div>
+                                                        <div>• Confidence: ${agentWork.logoDesign.result.confidenceLevel}%</div>
+                                                        ${agentWork.logoImages ? '<div>• AI-generated visual included</div>' : ''}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ` : ''}
+                                        ${agentWork.brandVoice ? `
+                                            <div>
+                                                <strong>Brand Voice (Blake ✍️):</strong>
+                                                <div class="mt-1">
+                                                    <div>• Personality: ${agentWork.brandVoice.result.brandVoice.personality.join(', ')}</div>
+                                                    <div>• Tone: ${agentWork.brandVoice.result.brandVoice.tone}</div>
+                                                    <div>• Confidence: ${agentWork.brandVoice.result.confidenceLevel}%</div>
+                                                </div>
+                                            </div>
+                                        ` : ''}
+                                        ${agentWork.taglines ? `
+                                            <div>
+                                                <strong>Taglines (Blake ✍️):</strong>
+                                                <div class="mt-1">
+                                                    <div>• Primary: "${agentWork.taglines.result.primaryTagline}"</div>
+                                                    <div>• Brand alignment: ${agentWork.taglines.result.taglineAnalysis.primary.brandAlignment}/10</div>
+                                                </div>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            <!-- Quality Assurance -->
+                            ${agentWork.brandGuidelines ? `
+                                <div class="bg-white p-4 rounded-xl border border-green-200">
+                                    <h6 class="font-medium text-green-800 mb-3">📦 Quality & Documentation</h6>
+                                    <div class="text-sm">
+                                        <strong>Brand Guidelines (Nova 📦):</strong>
+                                        <div class="mt-1">
+                                            <div>• ${agentWork.brandGuidelines.result.guidelinesSections.length} comprehensive sections</div>
+                                            <div>• Mission: ${agentWork.brandGuidelines.result.brandIntroduction.mission}</div>
+                                            <div>• Confidence: ${agentWork.brandGuidelines.result.confidenceLevel}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <!-- Enhanced AI Features -->
+                        ${isEnhanced ? `
+                            <div class="mt-6 p-4 bg-gradient-to-r from-purple-100 to-blue-100 rounded-xl border border-purple-300">
+                                <h6 class="font-medium text-purple-800 mb-3">🚀 Enhanced Multi-AI Capabilities</h6>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-xs">
+                                    <div>
+                                        <div class="text-xl mb-1">🧠</div>
+                                        <div class="font-medium">Anthropic Claude</div>
+                                        <div class="text-purple-600">Advanced Reasoning</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-xl mb-1">🎨</div>
+                                        <div class="font-medium">OpenAI GPT-4</div>
+                                        <div class="text-purple-600">Creative Excellence</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-xl mb-1">🖼️</div>
+                                        <div class="font-medium">DALL-E 3</div>
+                                        <div class="text-purple-600">Image Generation</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-xl mb-1">⚡</div>
+                                        <div class="font-medium">Google Gemini</div>
+                                        <div class="text-purple-600">Fast Coordination</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        function generateQualityAssessmentForHuman(project) {
+            const qualityIssues = [];
+            const recommendations = [];
+            
+            // Assess potential issues for human reviewer
+            if (project.agentWork) {
+                if (project.agentWork.confidenceLevel < 80) {
+                    qualityIssues.push({
+                        level: 'medium',
+                        text: `AI confidence is ${project.agentWork.confidenceLevel}% - consider reviewing key outputs`
+                    });
+                }
+                
+                if (project.agentWork.confidenceLevel < 70) {
+                    qualityIssues.push({
+                        level: 'high',
+                        text: 'Low AI confidence - thorough human review recommended'
+                    });
+                    recommendations.push('Request revisions for low-confidence deliverables');
+                }
+                
+                if (!project.agentWork.brandGuidelines) {
+                    qualityIssues.push({
+                        level: 'medium',
+                        text: 'Brand guidelines not completed by AI agents'
+                    });
+                }
+                
+                if (project.agentWork.source === 'ENHANCED_AI_POWERED') {
+                    recommendations.push('Enhanced AI system used - premium quality expected');
+                }
+                
+                if (project.agentWork.confidenceLevel > 90) {
+                    recommendations.push('High AI confidence - likely ready for CoE approval');
+                }
+            }
+            
+            // Budget considerations
+            if (project.budget > 100000) {
+                recommendations.push('High-value project - ensure all deliverables meet premium standards');
+            }
+            
+            return `
+                <!-- Human Review Assessment -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 bg-orange-50 rounded-2xl border border-orange-200">
+                        <h4 class="text-lg font-semibold text-orange-800 mb-4">🔍 Review Focus Areas</h4>
+                        ${qualityIssues.length > 0 ? qualityIssues.map(issue => `
+                            <div class="flex items-start space-x-3 mb-3">
+                                <div class="w-2 h-2 rounded-full mt-2 ${issue.level === 'high' ? 'bg-red-500' : 'bg-yellow-500'}"></div>
+                                <div class="text-sm text-orange-700">${issue.text}</div>
+                            </div>
+                        `).join('') : '<p class="text-sm text-orange-600">No specific quality concerns identified</p>'}
+                    </div>
+                    
+                    <div class="p-6 bg-blue-50 rounded-2xl border border-blue-200">
+                        <h4 class="text-lg font-semibold text-blue-800 mb-4">💡 Review Recommendations</h4>
+                        ${recommendations.length > 0 ? recommendations.map(rec => `
+                            <div class="flex items-start space-x-3 mb-3">
+                                <div class="w-2 h-2 rounded-full mt-2 bg-blue-500"></div>
+                                <div class="text-sm text-blue-700">${rec}</div>
+                            </div>
+                        `).join('') : '<p class="text-sm text-blue-600">Standard review process recommended</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateReviewCountBadge() {
+            const badge = document.getElementById('reviewCountBadge');
+            const count = humanReviewProjects.length;
+            badge.textContent = count > 0 ? `${count} Pending` : 'Review Queue';
+        }
+
+        async function openHumanReviewModal(projectId) {
+            currentProjectId = projectId;
+            
+            try {
+                const response = await fetch(`/api/projects/${projectId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    populateHumanReviewModal(result.project);
+                    document.getElementById('humanReviewModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading project details:', error);
+            }
+        }
+
+        function populateHumanReviewModal(project) {
+            document.getElementById('modalProjectTitle').textContent = `Review: ${project.projectName}`;
+            
+            // Populate project summary
+            document.getElementById('projectSummary').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><strong>Client:</strong> ${project.clientName}</div>
+                    <div><strong>Budget:</strong> $${project.budget.toLocaleString()}</div>
+                    <div><strong>Timeline:</strong> ${project.timeline}</div>
+                    <div><strong>Status:</strong> Pending Human Review</div>
+                </div>
+                <div class="mt-4">
+                    <strong>Brief:</strong>
+                    <p class="mt-2 p-3 bg-white rounded-2xl border border-win11-border">${project.brief}</p>
+                </div>
+            `;
+            
+            // Populate comprehensive agent work analysis
+            document.getElementById('agentWorkResults').innerHTML = generateHumanReviewAnalysis(project);
+        }
+
+        function closeHumanReviewModal() {
+            document.getElementById('humanReviewModal').style.display = 'none';
+            document.getElementById('revisionForm').classList.add('hidden');
+            document.getElementById('escalationForm').classList.add('hidden');
+            currentProjectId = null;
+        }
+
+        async function approveProject() {
+            if (!currentProjectId) return;
+            
+            try {
+                const response = await fetch(`/api/human-review/${currentProjectId}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        decision: 'approved',
+                        feedback: 'Approved for CoE review'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    closeHumanReviewModal();
+                    loadHumanReviewQueue();
+                    loadReviewStats();
+                    showSuccessMessage('Project approved successfully!');
+                }
+            } catch (error) {
+                console.error('Error approving project:', error);
+                alert('Error approving project. Please try again.');
+            }
+        }
+
+        async function quickApprove(projectId) {
+            try {
+                const response = await fetch(`/api/human-review/${projectId}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        decision: 'approved',
+                        feedback: 'Quick approved'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    loadHumanReviewQueue();
+                    loadReviewStats();
+                    showSuccessMessage('Project approved successfully!');
+                }
+            } catch (error) {
+                console.error('Error approving project:', error);
+                alert('Error approving project. Please try again.');
+            }
+        }
+
+        function requestRevisions() {
+            document.getElementById('revisionForm').classList.remove('hidden');
+            document.getElementById('escalationForm').classList.add('hidden');
+        }
+
+        function escalateToCoE() {
+            document.getElementById('escalationForm').classList.remove('hidden');
+            document.getElementById('revisionForm').classList.add('hidden');
+        }
+
+        function cancelRevisionRequest() {
+            document.getElementById('revisionForm').classList.add('hidden');
+            document.getElementById('revisionFeedback').value = '';
+        }
+
+        function cancelEscalation() {
+            document.getElementById('escalationForm').classList.add('hidden');
+            document.getElementById('escalationReason').value = '';
+        }
+
+        async function submitRevisionRequest() {
+            if (!currentProjectId) return;
+            
+            const feedback = document.getElementById('revisionFeedback').value.trim();
+            if (!feedback) {
+                alert('Please provide revision feedback.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/human-review/${currentProjectId}/revise`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        decision: 'revisions_requested',
+                        feedback: feedback
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    closeHumanReviewModal();
+                    loadHumanReviewQueue();
+                    loadReviewStats();
+                    showSuccessMessage('Revision request submitted successfully!');
+                }
+            } catch (error) {
+                console.error('Error submitting revision request:', error);
+                alert('Error submitting revision request. Please try again.');
+            }
+        }
+
+        async function submitEscalation() {
+            if (!currentProjectId) return;
+            
+            const reason = document.getElementById('escalationReason').value.trim();
+            if (!reason) {
+                alert('Please provide an escalation reason.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/human-review/${currentProjectId}/escalate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        decision: 'escalated',
+                        feedback: reason
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    closeHumanReviewModal();
+                    loadHumanReviewQueue();
+                    loadReviewStats();
+                    showSuccessMessage('Project escalated to CoE successfully!');
+                }
+            } catch (error) {
+                console.error('Error escalating project:', error);
+                alert('Error escalating project. Please try again.');
+            }
+        }
+
+        function refreshReviewQueue() {
+            loadHumanReviewQueue();
+            loadReviewStats();
+        }
+
+        function showSuccessMessage(message) {
+            // Simple success notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-3xl shadow-win11 z-50';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            loadHumanReviewQueue();
+            loadReviewStats();
+        }, 30000);
+    </script>
+</body>
+</html>
