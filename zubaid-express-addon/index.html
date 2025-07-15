@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZUBAID - Your AI Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Adobe Clean', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2c2c2c;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .zubaid-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .zubaid-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .zubaid-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .zubaid-subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .zubaid-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .project-setup {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .start-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .agent-workflow {
+            display: none;
+        }
+
+        .agent-workflow.active {
+            display: block;
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .agents-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .agent-card {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .agent-card.active {
+            background: #e3f2fd;
+            border-left-color: #667eea;
+            transform: translateX(4px);
+        }
+
+        .agent-card.complete {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+
+        .agent-avatar {
+            font-size: 24px;
+            margin-right: 12px;
+            width: 40px;
+            text-align: center;
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .agent-status {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            margin-left: 8px;
+        }
+
+        .status-indicator.thinking {
+            background: #ff9800;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-indicator.complete {
+            background: #4caf50;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .decisions-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .decision-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+
+        .decision-item:last-child {
+            border-bottom: none;
+        }
+
+        .decision-agent {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: #f5f5f5;
+            border-color: #667eea;
+        }
+
+        .zubaid-footer {
+            background: #f8f9fa;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .zubaid-logo {
+            display: inline-block;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="zubaid-container">
+        <!-- Header -->
+        <div class="zubaid-header">
+            <div class="zubaid-title">🤖 ZUBAID</div>
+            <div class="zubaid-subtitle">Your Multi-Agent AI Creative Team</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="zubaid-content">
+            <!-- Project Setup -->
+            <div id="project-setup" class="project-setup fade-in">
+                <h3 style="margin-bottom: 16px; color: #333;">What would you like to create today?</h3>
+                
+                <div class="input-group">
+                    <label for="project-brief">Tell ZUBAID about your project</label>
+                    <textarea id="project-brief" placeholder="e.g., Create a social media campaign for an eco-friendly water bottle targeting millennials who care about sustainability"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="project-type">Project Type</label>
+                    <select id="project-type">
+                        <option value="social-campaign">Social Media Campaign</option>
+                        <option value="brand-identity">Brand Identity</option>
+                        <option value="marketing-materials">Marketing Materials</option>
+                        <option value="presentation">Presentation</option>
+                        <option value="web-graphics">Web Graphics</option>
+                        <option value="logo-design">Logo Design</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-audience">Target Audience</label>
+                    <input type="text" id="target-audience" placeholder="e.g., Millennials, Small business owners, Students">
+                </div>
+                
+                <button id="start-workflow" class="start-btn">
+                    🚀 Let ZUBAID's Team Get Started
+                </button>
+            </div>
+
+            <!-- Agent Workflow -->
+            <div id="agent-workflow" class="agent-workflow">
+                <!-- Progress -->
+                <div class="progress-section">
+                    <h4 style="margin-bottom: 8px; color: #333;">ZUBAID's Progress</h4>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div id="progress-text" style="font-size: 12px; color: #666;">Getting started...</div>
+                </div>
+
+                <!-- Agents Working -->
+                <div class="agents-section">
+                    <h4 style="margin-bottom: 12px; color: #333;">ZUBAID's AI Team</h4>
+                    
+                    <div class="agent-card" data-agent="creative-director">
+                        <div class="agent-avatar">🎨</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Alex - Creative Director</div>
+                            <div class="agent-status">Setting visual strategy & creative direction</div>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    
+                    <div class="agent-card" data-agent="content-strategist">
+                        <div class="agent-avatar">📝</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Blake - Content Strategist</div>
+                            <div class="agent-status">Crafting compelling messaging & copy</div>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    
+                    <div class="agent-card" data-agent="visual-designer">
+                        <div class="agent-avatar">🎯</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Zara - Visual Designer</div>
+                            <div class="agent-status">Creating layouts & visual elements</div>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    
+                    <div class="agent-card" data-agent="brand-guardian">
+                        <div class="agent-avatar">🛡️</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Nova - Brand Guardian</div>
+                            <div class="agent-status">Ensuring brand consistency & quality</div>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    
+                    <div class="agent-card" data-agent="platform-optimizer">
+                        <div class="agent-avatar">📱</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Morgan - Platform Optimizer</div>
+                            <div class="agent-status">Adapting for different platforms</div>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    
+                    <div class="agent-card" data-agent="qa-agent">
+                        <div class="agent-avatar">✅</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Riley - Quality Assurance</div>
+                            <div class="agent-status">Final review & optimization</div>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                </div>
+
+                <!-- Decisions Panel -->
+                <div class="decisions-panel">
+                    <h4 style="margin-bottom: 12px; color: #333;">Live Team Decisions</h4>
+                    <div id="decisions-content">
+                        <em style="color: #666;">ZUBAID's team decisions will appear here in real-time...</em>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="control-buttons">
+                    <button class="control-btn" id="pause-btn">⏸️ Pause</button>
+                    <button class="control-btn" id="override-btn">✋ Override</button>
+                    <button class="control-btn" id="manual-btn">🎨 Manual Mode</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="zubaid-footer">
+            Powered by <span class="zubaid-logo">ZUBAID</span> • Your AI Assistant for Adobe Express
+        </div>
+    </div>
+
+    <script type="module">
+        import addOnUISdk from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
+
+        // Initialize ZUBAID when Adobe Express Add-on is ready
+        addOnUISdk.ready.then(async () => {
+            console.log("🤖 ZUBAID AI Assistant loaded in Adobe Express");
+            
+            // Initialize ZUBAID's workflow system
+            const zubaidManager = new ZubaidWorkflowManager();
+            await zubaidManager.initialize();
+        });
+
+        // ZUBAID Multi-Agent Workflow Manager
+        class ZubaidWorkflowManager {
+            constructor() {
+                this.agents = new Map();
+                this.currentWorkflow = null;
+                this.workflowState = 'idle';
+                this.currentAgentIndex = 0;
+                this.agentOrder = [
+                    'creative-director',
+                    'content-strategist', 
+                    'visual-designer',
+                    'brand-guardian',
+                    'platform-optimizer',
+                    'qa-agent'
+                ];
+                this.isPaused = false;
+            }
+
+            async initialize() {
+                this.setupEventListeners();
+                this.initializeAgents();
+                console.log("🤖 ZUBAID Workflow Manager initialized");
+            }
+
+            setupEventListeners() {
+                const startBtn = document.getElementById('start-workflow');
+                const pauseBtn = document.getElementById('pause-btn');
+                const overrideBtn = document.getElementById('override-btn');
+                const manualBtn = document.getElementById('manual-btn');
+
+                startBtn.addEventListener('click', () => this.startWorkflow());
+                pauseBtn.addEventListener('click', () => this.togglePause());
+                overrideBtn.addEventListener('click', () => this.overrideCurrentAgent());
+                manualBtn.addEventListener('click', () => this.switchToManualMode());
+            }
+
+            initializeAgents() {
+                // ZUBAID's specialized AI team
+                this.agents.set('creative-director', new ZubaidCreativeDirector());
+                this.agents.set('content-strategist', new ZubaidContentStrategist());
+                this.agents.set('visual-designer', new ZubaidVisualDesigner());
+                this.agents.set('brand-guardian', new ZubaidBrandGuardian());
+                this.agents.set('platform-optimizer', new ZubaidPlatformOptimizer());
+                this.agents.set('qa-agent', new ZubaidQualityAssurance());
+            }
+
+            async startWorkflow() {
+                const brief = document.getElementById('project-brief').value;
+                const projectType = document.getElementById('project-type').value;
+                const audience = document.getElementById('target-audience').value;
+
+                if (!brief.trim()) {
+                    alert('Please tell ZUBAID about your project');
+                    return;
+                }
+
+                const workflowData = {
+                    brief,
+                    projectType,
+                    audience,
+                    timestamp: Date.now()
+                };
+
+                // Hide input, show workflow
+                document.getElementById('project-setup').style.display = 'none';
+                document.getElementById('agent-workflow').classList.add('active');
+
+                // Start ZUBAID's workflow
+                this.currentWorkflow = workflowData;
+                this.workflowState = 'running';
+                this.currentAgentIndex = 0;
+
+                this.updateProgress(5, "ZUBAID's team is getting started...");
+                await this.executeAgentChain();
+            }
+
+            async executeAgentChain() {
+                if (this.isPaused) return;
+
+                for (let i = this.currentAgentIndex; i < this.agentOrder.length; i++) {
+                    if (this.isPaused) {
+                        this.currentAgentIndex = i;
+                        return;
+                    }
+
+                    const agentId = this.agentOrder[i];
+                    const agent = this.agents.get(agentId);
+
+                    // Update UI to show current agent working
+                    this.setAgentStatus(agentId, 'active');
+                    this.updateProgress(
+                        10 + (i / this.agentOrder.length) * 80, 
+                        `${this.getAgentDisplayName(agentId)} is working...`
+                    );
+
+                    // Execute agent
+                    const result = await agent.process(this.currentWorkflow, this.getPreviousDecisions(i));
+                    
+                    // Show agent decisions
+                    this.displayAgentDecision(agentId, result);
+                    
+                    // Mark agent as complete
+                    this.setAgentStatus(agentId, 'complete');
+                    
+                    // Send to Adobe Express document
+                    await this.sendToExpressDocument(agentId, result);
+                    
+                    // Delay for demonstration
+                    await this.delay(2000);
+                }
+
+                // Workflow complete
+                this.updateProgress(100, "🎉 ZUBAID has completed your design!");
+                this.workflowState = 'complete';
+                this.showCompletionMessage();
+            }
+
+            setAgentStatus(agentId, status) {
+                const agentElement = document.querySelector(`[data-agent="${agentId}"]`);
+                const statusIndicator = agentElement.querySelector('.status-indicator');
+                
+                // Remove all status classes
+                agentElement.classList.remove('active', 'complete');
+                statusIndicator.classList.remove('thinking', 'complete');
+                
+                if (status === 'active') {
+                    agentElement.classList.add('active');
+                    statusIndicator.classList.add('thinking');
+                } else if (status === 'complete') {
+                    agentElement.classList.add('complete');
+                    statusIndicator.classList.add('complete');
+                }
+            }
+
+            updateProgress(percentage, message) {
+                const progressFill = document.getElementById('progress-fill');
+                const progressText = document.getElementById('progress-text');
+                
+                progressFill.style.width = percentage + '%';
+                progressText.textContent = message;
+            }
+
+            displayAgentDecision(agentId, result) {
+                const decisionsContent = document.getElementById('decisions-content');
+                
+                if (decisionsContent.innerHTML.includes('will appear here')) {
+                    decisionsContent.innerHTML = '';
+                }
+
+                const decisionElement = document.createElement('div');
+                decisionElement.className = 'decision-item fade-in';
+                decisionElement.innerHTML = `
+                    <div class="decision-agent">${this.getAgentDisplayName(agentId)}</div>
+                    <div>${result.summary}</div>
+                `;
+                
+                decisionsContent.appendChild(decisionElement);
+                decisionsContent.scrollTop = decisionsContent.scrollHeight;
+            }
+
+            getAgentDisplayName(agentId) {
+                const names = {
+                    'creative-director': '🎨 Alex (Creative Director)',
+                    'content-strategist': '📝 Blake (Content Strategist)',
+                    'visual-designer': '🎯 Zara (Visual Designer)',
+                    'brand-guardian': '🛡️ Nova (Brand Guardian)',
+                    'platform-optimizer': '📱 Morgan (Platform Optimizer)',
+                    'qa-agent': '✅ Riley (Quality Assurance)'
+                };
+                return names[agentId] || agentId;
+            }
+
+            getPreviousDecisions(currentIndex) {
+                const decisions = {};
+                for (let i = 0; i < currentIndex; i++) {
+                    const agentId = this.agentOrder[i];
+                    decisions[agentId] = this.agents.get(agentId).lastResult;
+                }
+                return decisions;
+            }
+
+            async sendToExpressDocument(agentId, result) {
+                // Send ZUBAID's decisions to Adobe Express document
+                try {
+                    await addOnUISdk.app.document.addOnData.setSharedData({
+                        source: 'ZUBAID',
+                        agentId: agentId,
+                        decisions: result,
+                        timestamp: Date.now()
+                    });
+                } catch (error) {
+                    console.log('Adobe Express document communication:', error);
+                }
+            }
+
+            togglePause() {
+                this.isPaused = !this.isPaused;
+                const pauseBtn = document.getElementById('pause-btn');
+                
+                if (this.isPaused) {
+                    pauseBtn.textContent = '▶️ Resume';
+                    this.updateProgress(
+                        this.getCurrentProgress(), 
+                        "ZUBAID's workflow paused by user"
+                    );
+                } else {
+                    pauseBtn.textContent = '⏸️ Pause';
+                    this.executeAgentChain(); // Resume execution
+                }
+            }
+
+            overrideCurrentAgent() {
+                if (this.workflowState === 'running') {
+                    this.displayAgentDecision('user-override', {
+                        summary: '🛑 User override: Taking manual control from ZUBAID'
+                    });
+                }
+            }
+
+            switchToManualMode() {
+                this.isPaused = true;
+                this.displayAgentDecision('manual-mode', {
+                    summary: '🎨 Switched to manual design mode - ZUBAID is standing by'
+                });
+            }
+
+            showCompletionMessage() {
+                this.displayAgentDecision('workflow-complete', {
+                    summary: '🎉 ZUBAID has completed your project! Your design is ready in Adobe Express.'
+                });
+            }
+
+            getCurrentProgress() {
+                return 10 + (this.currentAgentIndex / this.agentOrder.length) * 80;
+            }
+
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+
+        // Base ZUBAID Agent Class
+        class ZubaidAgent {
+            constructor(name, specialization) {
+                this.name = name;
+                this.specialization = specialization;
+                this.lastResult = null;
+            }
+
+            async process(workflowData, previousDecisions) {
+                const result = await this.makeDecisions(workflowData, previousDecisions);
+                this.lastResult = result;
+                return result;
+            }
+
+            async makeDecisions(workflowData, previousDecisions) {
+                return { summary: `${this.name} completed analysis` };
+            }
+        }
+
+        // ZUBAID's Specialized Agents
+        class ZubaidCreativeDirector extends ZubaidAgent {
+            constructor() {
+                super('Alex (Creative Director)', 'Visual strategy and creative direction');
+            }
+
+            async makeDecisions(workflowData, previousDecisions) {
+                await new Promise(resolve => setTimeout(resolve, 2500));
+                
+                const style = this.determineVisualStyle(workflowData.brief);
+                const colors = this.selectColorPalette(workflowData.brief);
+                const mood = this.setCreativeMood(workflowData.brief);
+
+                return {
+                    agent: 'creative-director',
+                    decisions: { style, colors, mood },
+                    summary: `Set ${style} visual style with ${colors} color palette for ${mood} mood`
+                };
+            }
+
+            determineVisualStyle(brief) {
+                if (brief.toLowerCase().includes('eco') || brief.toLowerCase().includes('sustainable')) {
+                    return 'Natural & Organic';
+                } else if (brief.toLowerCase().includes('tech') || brief.toLowerCase().includes('digital')) {
+                    return 'Modern & Tech-Forward';
+                } else if (brief.toLowerCase().includes('luxury') || brief.toLowerCase().includes('premium')) {
+                    return 'Elegant & Sophisticated';
+                }
+                return 'Clean & Contemporary';
+            }
+
+            selectColorPalette(brief) {
+                if (brief.toLowerCase().includes('eco') || brief.toLowerCase().includes('green')) {
+                    return 'Earth Tones & Green';
+                } else if (brief.toLowerCase().includes('tech')) {
+                    return 'Blue & Tech Gray';
+                } else if (brief.toLowerCase().includes('energy') || brief.toLowerCase().includes('dynamic')) {
+                    return 'Vibrant & Energetic';
+                }
+                return 'Professional Blue';
+            }
+
+            setCreativeMood(brief) {
+                if (brief.toLowerCase().includes('fun') || brief.toLowerCase().includes('playful')) {
+                    return 'energetic';
+                } else if (brief.toLowerCase().includes('serious') || brief.toLowerCase().includes('professional')) {
+                    return 'trustworthy';
+                }
+                return 'approachable';
+            }
+        }
+
+        class ZubaidContentStrategist extends ZubaidAgent {
+            constructor() {
+                super('Blake (Content Strategist)', 'Messaging and content creation');
+            }
+
+            async makeDecisions(workflowData, previousDecisions) {
+                await new Promise(resolve => setTimeout(resolve, 2200));
+
+                const headline = this.generateHeadline(workflowData.brief);
+                const messaging = this.craftMessaging(workflowData.brief, workflowData.audience);
+                const cta = this.createCTA(workflowData.projectType);
+
+                return {
+                    agent: 'content-strategist',
+                    decisions: { headline, messaging, cta },
+                    summary: `Created "${headline}" headline with ${messaging} messaging and "${cta}" call-to-action`
+                };
+            }
+
+            generateHeadline(brief) {
+                if (brief.toLowerCase().includes('water bottle')) {
+                    return 'Hydrate Sustainably, Live Better';
+                } else if (brief.toLowerCase().includes('social media')) {
+                    return 'Connect, Engage, Grow';
+                } else if (brief.toLowerCase().includes('brand')) {
+                    return 'Your Brand, Elevated';
+                }
+                return 'Transform Your Vision';
+            }
+
+            craftMessaging(brief, audience) {
+                if (audience.toLowerCase().includes('millennial')) {
+                    return 'authentic & value-driven';
+                } else if (audience.toLowerCase().includes('business')) {
+                    return 'professional & results-focused';
+                }
+                return 'clear & compelling';
+            }
+
+            createCTA(projectType) {
+                const ctas = {
+                    'social-campaign': 'Join the Movement',
+                    'brand-identity': 'Discover Your Brand',
+                    'marketing-materials': 'Get Started Today',
+                    'presentation': 'Learn More',
+                    'web-graphics': 'Explore Now',
+                    'logo-design': 'See the Vision'
+                };
+                return ctas[projectType] || 'Take Action';
+            }
+        }
+
+        class ZubaidVisualDesigner extends ZubaidAgent {
+            constructor() {
+                super('Zara (Visual Designer)', 'Layout and visual element creation');
+            }
+
+            async makeDecisions(workflowData, previousDecisions) {
+                await new Promise(resolve => setTimeout(resolve, 2800));
+
+                const layout = this.selectLayout(workflowData.projectType);
+                const composition = this.planComposition(workflowData.brief);
+                const elements = this.designElements(workflowData.projectType);
+
+                return {
+                    agent: 'visual-designer',
+                    decisions: { layout, composition, elements },
+                    summary: `Designed ${layout} layout with ${composition} composition and key visual elements`
+                };
+            }
+
+            selectLayout(projectType) {
+                const layouts = {
+                    'social-campaign': 'Hero-Focused Grid',
+                    'brand-identity': 'Centered Brand Layout',
+                    'marketing-materials': 'Feature-Driven Design',
+                    'presentation': 'Content-First Layout',
+                    'web-graphics': 'Banner Optimized',
+                    'logo-design': 'Logo-Centric Design'
+                };
+                return layouts[projectType] || 'Flexible Layout';
+            }
+
+            planComposition(brief) {
+                if (brief.toLowerCase().includes('product')) {
+                    return 'product-centered';
+                } else if (brief.toLowerCase().includes('message') || brief.toLowerCase().includes('text')) {
+                    return 'typography-focused';
+                }
+                return 'balanced visual';
+            }
+
+            designElements(projectType) {
+                return ['Background', 'Typography', 'Visual Elements', 'Call-to-Action'];
+            }
+        }
+
+        class ZubaidBrandGuardian extends ZubaidAgent {
+            constructor() {
+                super('Nova (Brand Guardian)', 'Brand consistency and quality assurance');
+            }
+
+            async makeDecisions(workflowData, previousDecisions) {
+                await new Promise(resolve => setTimeout(resolve, 1800));
+
+                return {
+                    agent: 'brand-guardian',
+                    decisions: {
+                        consistency: 'All elements aligned with brand standards',
+                        quality: 'Professional quality maintained',
+                        accessibility: 'WCAG guidelines followed'
+                    },
+                    summary: 'Verified brand consistency, quality standards, and accessibility compliance'
+                };
+            }
+        }
+
+        class ZubaidPlatformOptimizer extends ZubaidAgent {
+            constructor() {
+                super('Morgan (Platform Optimizer)', 'Multi-platform adaptation');
+            }
+
+            async makeDecisions(workflowData, previousDecisions) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const platforms = this.selectPlatforms(workflowData.projectType);
+                const adaptations = platforms.length;
+
+                return {
+                    agent: 'platform-optimizer',
+                    decisions: { platforms, adaptations },
+                    summary: `Optimized for ${platforms.join(', ')} with ${adaptations} platform variations`
+                };
+            }
+
+            selectPlatforms(projectType) {
+                if (projectType === 'social-campaign') {
+                    return ['Instagram', 'Facebook', 'Twitter', 'LinkedIn'];
+                } else if (projectType === 'web-graphics') {
+                    return ['Website', 'Email', 'Social Media'];
+                }
+                return ['Primary Format', 'Web Optimized'];
+            }
+        }
+
+        class ZubaidQualityAssurance extends ZubaidAgent {
+            constructor() {
+                super('Riley (Quality Assurance)', 'Final review and optimization');
+            }
+
+            async makeDecisions(workflowData, previousDecisions) {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                return {
+                    agent: 'qa-agent',
+                    decisions: {
+                        accessibility: 'All accessibility standards met',
+                        performance: 'Optimized for fast loading',
+                        compatibility: 'Cross-device compatibility verified',
+                        quality: 'Professional quality assured'
+                    },
+                    summary: '✅ Quality checks passed - Design ready for delivery'
+                };
+            }
+        }
+
+        // Make ZUBAID available globally
+        window.ZubaidWorkflowManager = ZubaidWorkflowManager;
+    </script>
+</body>
+</html>

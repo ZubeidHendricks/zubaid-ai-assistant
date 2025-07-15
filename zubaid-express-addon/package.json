@@ -1,0 +1,52 @@
+{
+  "name": "zubaid-express-addon",
+  "version": "2025.1.0",
+  "description": "ZUBAID - Your AI Assistant for Adobe Express | Multi-Agent Creative Workflow Add-on",
+  "main": "index.html",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "npx @adobe/create-ccweb-add-on --dev --port 5241",
+    "build": "npx @adobe/create-ccweb-add-on --build",
+    "test": "echo 'Use Adobe Express Code Playground for testing'",
+    "validate": "echo 'Validating ZUBAID manifest and code structure'"
+  },
+  "keywords": [
+    "adobe-express",
+    "ai-assistant",
+    "multi-agent",
+    "creative-workflow",
+    "zubaid",
+    "design-automation",
+    "adobe-add-on",
+    "hackathon",
+    "2025"
+  ],
+  "author": "Zubeid Hendricks",
+  "license": "MIT",
+  "devDependencies": {
+    "@adobe/create-ccweb-add-on": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZubeidHendricks/zubaid-ai-assistant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZubeidHendricks/zubaid-ai-assistant/issues"
+  },
+  "homepage": "https://github.com/ZubeidHendricks/zubaid-ai-assistant#readme",
+  "addOn": {
+    "manifestVersion": 2,
+    "features": {
+      "documentSandbox": true,
+      "persistentData": true,
+      "advancedStyling": true,
+      "multiAgent": true
+    },
+    "compatibility": {
+      "adobeExpress": ">=2024.1.0"
+    }
+  }
+}

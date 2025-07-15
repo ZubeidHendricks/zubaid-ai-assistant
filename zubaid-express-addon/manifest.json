@@ -1,0 +1,65 @@
+{
+  "testId": "zubaid-ai-assistant-2025",
+  "name": "ZUBAID - Your AI Assistant",
+  "version": "2025.1.0",
+  "manifestVersion": 2,
+  "description": "Meet ZUBAID, your multi-agent AI creative team. Automate your entire Adobe Express workflow from brief to final design with specialized AI agents working together in real-time. Now with 2025 enhanced features!",
+  "author": "Zubeid Hendricks",
+  "traderInfo": {
+    "name": "Zubeid Hendricks",
+    "address": "Cape Town, South Africa",
+    "email": "zubeid@example.com"
+  },
+  "requiredPermissions": {
+    "webview": {
+      "allow": "yes",
+      "domains": [
+        "https://api.openai.com",
+        "https://api.anthropic.com", 
+        "https://generativelanguage.googleapis.com",
+        "https://localhost:3001",
+        "http://localhost:3001",
+        "https://localhost:5241",
+        "http://localhost:5241"
+      ]
+    },
+    "iframeContent": {
+      "allow": "yes"
+    },
+    "clipboard": "readAndWrite",
+    "microphone": "readAndWrite",
+    "documentSandbox": {
+      "allow": "yes",
+      "permissions": ["read", "write", "metadata"]
+    },
+    "persistentData": true,
+    "addOnData": true
+  },
+  "entryPoints": [
+    {
+      "type": "panel",
+      "id": "zubaid-main-panel"
+    }
+  ],
+  "uiEntry": {
+    "type": "panel",
+    "src": "/index.html"
+  },
+  "documentSandbox": {
+    "src": "/code.js"
+  },
+  "renditions": {
+    "supported": ["pdf", "png", "svg", "jpg"],
+    "intent": ["web", "print", "social"]
+  },
+  "icons": {
+    "23": "/icons/icon-23.png",
+    "46": "/icons/icon-46.png"
+  },
+  "capabilities": {
+    "textStyling": true,
+    "advancedLayout": true,
+    "persistentMetadata": true,
+    "multiPlatformOptimization": true
+  }
+}
