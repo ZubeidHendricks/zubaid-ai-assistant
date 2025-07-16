@@ -8,21 +8,24 @@
 
 ### Option 1: Code Playground (Fastest - 2 minutes)
 
-1. **Open Adobe Express Code Playground**
-   - Go to [Adobe Express](https://express.adobe.com)
-   - Create any project → Add-ons → Your add-ons tab
+1. **Access Code Playground**
+   - Go to [Adobe Express](https://express.adobe.com) and sign in
+   - Click avatar → Settings → Enable "Add-on Development"
+   - Open any document → Add-ons → Your add-ons tab
    - Toggle "Code Playground" at bottom
 
-2. **Import ZUBAID**
-   - Copy `manifest.json` → Manifest tab
-   - Copy `index.html` → HTML tab  
-   - Copy `code.js` → Code tab
-   - Click "Test add-on"
+2. **Import ZUBAID (Add-on Mode)**
+   - Select "Add-on Mode" in Code Playground
+   - **Manifest Tab**: Copy `zubaid-express-addon/manifest.json`
+   - **HTML Tab**: Copy `zubaid-express-addon/index.html`
+   - **iFrameJS Tab**: Copy `zubaid-express-addon/code.js`
+   - Click "Run" button or press `Cmd(Ctrl) + Shift + Enter`
 
 3. **Test Multi-Agent Workflow**
    - Brief: "Create a social media campaign for an eco-friendly water bottle targeting millennials"
+   - Click "Let ZUBAID's Team Get Started"
    - Watch 6 AI agents collaborate in real-time
-   - See professional design created in Adobe Express
+   - See professional design created in Adobe Express document
 
 ### Option 2: Local Development (5 minutes)
 

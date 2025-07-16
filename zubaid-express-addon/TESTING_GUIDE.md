@@ -1,24 +1,51 @@
 # 🧪 ZUBAID Testing Guide - Adobe Express Code Playground
 
-## Quick Test Setup (5 minutes)
+## Quick Test Setup (2 minutes)
 
 ### Step 1: Access Code Playground
-1. Open [Adobe Express](https://express.adobe.com)
-2. Click your avatar (top right) → Settings (gear icon)
-3. Enable "Add-on Development" if not enabled
-4. Open any document
-5. Click "Add-ons" (left sidebar) → "Your add-ons" tab
-6. Toggle on "Code Playground" at bottom
+1. **Open Adobe Express**
+   - Go to [Adobe Express](https://express.adobe.com)
+   - Sign in to your account
 
-### Step 2: Import ZUBAID
-1. Click "Add-on" button (top left in Code Playground)
-2. **Manifest Tab**: Copy entire contents of `manifest.json`
-3. **HTML Tab**: Copy entire contents of `index.html`
-4. **Code Tab**: Copy entire contents of `code.js`
+2. **Enable Developer Mode**
+   - Click your avatar (top right) → Settings (gear icon)
+   - Enable "Add-on Development" if not already enabled
+   - Accept Developer Terms of Use if prompted
 
-### Step 3: Test ZUBAID
-1. Click "Test add-on" (top right)
-2. ZUBAID should load in the right panel
+3. **Open Code Playground**
+   - Create or open any document in Adobe Express
+   - Click "Add-ons" button (left sidebar)
+   - Select "Your add-ons" tab
+   - Toggle on "Code Playground" at the bottom of the panel
+
+### Step 2: Import ZUBAID (Add-on Mode)
+1. **Select Add-on Mode**
+   - Code Playground opens with two modes: Script Mode and Add-on Mode
+   - Click "Add-on Mode" for full add-on testing
+
+2. **Copy ZUBAID Files**
+   - **Manifest Tab**: Copy entire contents of `manifest.json`
+   - **HTML Tab**: Copy entire contents of `index.html`
+   - **CSS Tab**: Leave empty (styles are in HTML)
+   - **iFrameJS Tab**: Copy entire contents of `code.js`
+
+3. **Run ZUBAID**
+   - Click the "Run" button or press `Cmd(Ctrl) + Shift + Enter`
+   - ZUBAID should load in the right panel
+
+### Step 3: Test Multi-Agent Workflow
+1. **Enter Project Brief**
+   - Use the text area to describe your project
+   - Example: "Create a social media campaign for an eco-friendly water bottle"
+
+2. **Start Workflow**
+   - Click "Let ZUBAID's Team Get Started"
+   - Watch 6 AI agents collaborate in real-time
+   - See progress indicators and live decisions
+
+3. **View Results**
+   - Elements will be created directly in your Adobe Express document
+   - Check the console (F12) for detailed logs
 
 ## 🎯 Demo Test Scenarios
 
